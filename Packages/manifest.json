@@ -1,9 +1,62 @@
 {
   "dependencies": {
+    "appsflyer-unity-plugin": "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#upm",
+    "com.applovin.mediation.adapters.bidmachine.android": "3070100.0.0",
+    "com.applovin.mediation.adapters.bidmachine.ios": "307010000.0.0",
+    "com.applovin.mediation.adapters.bigoads.android": "5100000.0.0",
+    "com.applovin.mediation.adapters.bigoads.ios": "5030000.0.0",
+    "com.applovin.mediation.adapters.bytedance.android": "801000400.0.0",
+    "com.applovin.mediation.adapters.bytedance.ios": "801010000.0.0",
+    "com.applovin.mediation.adapters.facebook.android": "6210000.0.0",
+    "com.applovin.mediation.adapters.facebook.ios": "6210100.0.0",
+    "com.applovin.mediation.adapters.fyber.android": "8040600.0.0",
+    "com.applovin.mediation.adapters.fyber.ios": "8040800.0.0",
+    "com.applovin.mediation.adapters.google.android": "25040000.0.0",
+    "com.applovin.mediation.adapters.google.ios": "13060000.0.0",
+    "com.applovin.mediation.adapters.googleadmanager.android": "25040000.0.0",
+    "com.applovin.mediation.adapters.googleadmanager.ios": "13060000.0.0",
+    "com.applovin.mediation.adapters.inmobi.android": "11030000.0.0",
+    "com.applovin.mediation.adapters.inmobi.ios": "11030000.0.0",
+    "com.applovin.mediation.adapters.ironsource.android": "905000000.0.0",
+    "com.applovin.mediation.adapters.ironsource.ios": "904020000.0.0",
+    "com.applovin.mediation.adapters.mintegral.android": "17016100.0.0",
+    "com.applovin.mediation.adapters.mintegral.ios": "801050000.0.0",
+    "com.applovin.mediation.adapters.mobilefuse.android": "1110000.0.0",
+    "com.applovin.mediation.adapters.mobilefuse.ios": "1110000.0.0",
+    "com.applovin.mediation.adapters.moloco.android": "4090000.0.0",
+    "com.applovin.mediation.adapters.moloco.ios": "4080000.0.0",
+    "com.applovin.mediation.adapters.ogurypresage.android": "6020200.0.0",
+    "com.applovin.mediation.adapters.ogurypresage.ios": "5020300.0.0",
+    "com.applovin.mediation.adapters.pubmatic.android": "5010200.0.0",
+    "com.applovin.mediation.adapters.pubmatic.ios": "5010100.0.0",
+    "com.applovin.mediation.adapters.unityads.android": "4190000.0.0",
+    "com.applovin.mediation.adapters.unityads.ios": "4190000.0.0",
+    "com.applovin.mediation.adapters.verve.android": "3090000.0.0",
+    "com.applovin.mediation.adapters.verve.ios": "3090000.0.0",
+    "com.applovin.mediation.adapters.vungle.android": "7070400.0.0",
+    "com.applovin.mediation.adapters.vungle.ios": "7070400.0.0",
+    "com.applovin.mediation.adapters.yandex.android": "8020000.0.0",
+    "com.applovin.mediation.adapters.yandex.ios": "8010001.0.0",
+    "com.applovin.mediation.ads": "8.6.4",
+    "com.bytebrew.unitysdk": "https://github.com/ByteBrewIO/ByteBrewUnitySDK.git?path=UPMPackage",
+    "com.coffee.ui-effect": "https://github.com/mob-sakai/UIEffect.git?path=Packages/src",
+    "com.google.play.common": "1.9.2",
+    "com.google.play.core": "1.8.6",
+    "com.google.play.review": "1.8.4",
+    "com.marijnzwemmer.unity-toolbar-extender": "https://github.com/marijnz/unity-toolbar-extender.git",
     "com.titipigames.unity-moca-utils": "file:Titipi/MocaUtils",
     "com.titipigames.unity-mocalib": "file:Titipi/MocaLib",
     "costcenter-sdk": "file:costcenter-sdk-v1.4.1",
     "com.unity.ads.ios-support": "file:com.unity.ads.ios-support",
+    "com.google.android.appbundle": "file:Google/com.google.android.appbundle-1.9.0.tgz",
+    "com.google.external-dependency-manager": "file:Google/com.google.external-dependency-manager-1.2.187.tgz",
+    "com.google.firebase.analytics": "file:Google/com.google.firebase.analytics-13.13.0.tgz",
+    "com.google.firebase.app": "file:Google/com.google.firebase.app-13.13.0.tgz",
+    "com.google.firebase.auth": "file:Google/com.google.firebase.auth-13.13.0.tgz",
+    "com.google.firebase.crashlytics": "file:Google/com.google.firebase.crashlytics-13.13.0.tgz",
+    "com.google.firebase.firestore": "file:Google/com.google.firebase.firestore-13.13.0.tgz",
+    "com.google.firebase.messaging": "file:Google/com.google.firebase.messaging-13.13.0.tgz",
+    "com.google.firebase.remote-config": "file:Google/com.google.firebase.remote-config-13.13.0.tgz",
     "com.unity.2d.animation": "16.0.0",
     "com.unity.2d.aseprite": "6.0.0",
     "com.unity.2d.psdimporter": "15.0.0",
@@ -61,5 +114,26 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "AppLovin MAX Unity",
+      "url": "https://unity.packages.applovin.com",
+      "scopes": [
+        "com.applovin.mediation.ads",
+        "com.applovin.mediation.adapters",
+        "com.applovin.mediation.dsp"
+      ]
+    },
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.google.external-dependency-manager",
+        "com.google.play.common",
+        "com.google.play.core",
+        "com.google.play.review"
+      ]
+    }
+  ]
 }
