@@ -1,0 +1,12 @@
+{
+  "name": "com.titipigames.unity-mocalib",
+  "version": "26.7.3",
+  "displayName": "Titipi Common Library",
+  "description": "This library provides some common components such as:\n\n- Analytics\n- Ads\n- IAP\n- Remote Configs\n- Push Notification\n- Etc.",
+  "unity": "6.3",
+  "author": {
+    "name": "Phong Thai & TITIPI Developers & AI",
+    "email": "phong.thai@titipigames.com",
+    "url": "https://titipigames.com"
+  }
+}

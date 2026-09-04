@@ -1,0 +1,21 @@
+{
+    "name": "Titipi.MocaLib.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8ace23331ea6b4ae0ab98a877b1aa150",
+        "GUID:3edf9d35698e4431f8a737a82f45fca4",
+        "GUID:8d5b1df6c430d4061a0d3baa8ed769f1",
+        "GUID:00c479e63b1c74419820a39073267645"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

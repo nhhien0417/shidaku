@@ -1,0 +1,30 @@
+{
+    "name": "Titipi.MocaLib",
+    "rootNamespace": "",
+    "references": [
+        "Unity.TextMeshPro",
+        "UnityEngine.Purchasing",
+        "Purchasing.Common",
+        "UnityEngine.Purchasing.Stores",
+        "Unity.LevelPlay",
+        "Unity.Advertisement.IosSupport",
+        "ByteBrewSDK",
+        "DOTween.Modules",
+        "MaxSdk.Scripts",
+        "AdjustSdk.Scripts",
+        "AppsFlyer",
+        "Google.Play.Core",
+        "Google.Play.Common",
+        "Google.Play.Review",
+        "GameAnalyticsSDK"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,12 @@
+{
+  "name": "costcenter-sdk",
+  "version": "1.4.1",
+  "displayName": "Cost Center SDK",
+  "description": "Cost Center SDK",
+  "unity": "2021.3",
+  "author": {
+    "name": "Cost Center",
+    "email": "operations@costcenter.net"
+  },
+  "_fingerprint": "ba6d0bf876df6947f1bbeb75fc1748c6b55e14fe"
+}

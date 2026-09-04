@@ -1,0 +1,12 @@
+{
+  "name": "com.titipigames.unity-moca-utils",
+  "version": "26.7.2",
+  "displayName": "Tipipi Unity Editor Tools",
+  "description": "Various Unity Editor tools developed and used by Titipi Games.",
+  "unity": "6.3",
+  "author": {
+    "name": "Phong Thai & TITIPI developers & AI",
+    "email": "phong.thai@titipigames.com",
+    "url": "https://github.com/TITIPI-GAMES/unity-moca-utils"
+  }
+}
