@@ -9,10 +9,6 @@ namespace Design.DataHolder
     public enum FeatureType
     {
         None,
-        DailyChallenge,
-        FortuneWheel,
-        DayStreak,
-        ArtPuzzle,
         Customize,
     }
 
@@ -91,11 +87,6 @@ namespace Design.DataHolder
             if (unlockLevel < 0)
                 return false;
 
-            if (featureType == FeatureType.ArtPuzzle)
-            {
-                var artData = UserData.Instance.ArtPuzzleData;
-                return currentLevel > unlockLevel || artData.IsFirstArtCompleted;
-            }
             return currentLevel >= unlockLevel;
         }
     }

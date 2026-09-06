@@ -47,5 +47,24 @@ public static partial class Track
                 Value = value
             });
         }
+
+        private static int _interAdCount;
+        private static int _rvAdCount;
+        private static double _adRevenue;
+
+        public static void OnInterAd(float durationSeconds = 0f)
+        {
+            _interAdCount++;
+        }
+
+        public static void OnRvAd(float durationSeconds = 0f)
+        {
+            _rvAdCount++;
+        }
+
+        public static void OnAdRevenue(double value)
+        {
+            _adRevenue += System.Math.Max(0d, value);
+        }
     }
 }

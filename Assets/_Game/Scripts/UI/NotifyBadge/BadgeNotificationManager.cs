@@ -104,8 +104,6 @@ namespace _Game.UI.NotifyBadge
         private void Start()
         {
             CheckShopBadges();
-            CheckFortuneWheelBadges();
-            CheckDailyChallengeBadges();
             RefreshUserProfileBadges();
         }
 
@@ -114,8 +112,6 @@ namespace _Game.UI.NotifyBadge
             if (hasFocus)
             {
                 CheckShopBadges();
-                CheckFortuneWheelBadges();
-                CheckDailyChallengeBadges();
                 RefreshUserProfileBadges();
             }
         }
@@ -160,56 +156,6 @@ namespace _Game.UI.NotifyBadge
                 SetNotification(BadgeNotificationType.Shop_NewItems, availableCount);
             else
                 ClearNotification(BadgeNotificationType.Shop_NewItems);
-        }
-
-        // Check daily challenge notify badge conditions
-        public void RefreshDailyChallengeBadges()
-        {
-            CheckDailyChallengeBadges();
-        }
-
-        private void CheckDailyChallengeBadges()
-        {
-            var dailyChallenge = UserData.Instance.DailyChallengeData;
-            if (dailyChallenge == null) return;
-
-            // --- New Day / Unsolved Badge ---
-            if (!dailyChallenge.IsTodaySolved())
-                SetNotification(BadgeNotificationType.DailyChallenge_UnsolvedToday);
-            else
-                ClearNotification(BadgeNotificationType.DailyChallenge_UnsolvedToday);
-
-            // --- Milestone Claimable Badge ---
-            if (dailyChallenge.HasClaimableMilestones(DateTimeManager.Now.Date))
-                SetNotification(BadgeNotificationType.DailyChallenge_MilestoneClaimable);
-            else
-                ClearNotification(BadgeNotificationType.DailyChallenge_MilestoneClaimable);
-        }
-
-        // Check fortune wheel notify badge conditions
-        public void RefreshFortuneWheelBadges()
-        {
-            CheckFortuneWheelBadges();
-        }
-
-        private void CheckFortuneWheelBadges()
-        {
-            var fortuneWheelData = UserData.Instance.FortuneWheelData;
-            if (fortuneWheelData == null) return;
-
-            var canSpinFree = fortuneWheelData.CanSpinFree();
-            var canSpinRv = fortuneWheelData.CanSpinRV();
-            var trackingData = UserData.Instance.TrackingData;
-
-            if (canSpinFree)
-                SetNotification(BadgeNotificationType.FortuneWheel_FreeSpinAvailable);
-            else
-                ClearNotification(BadgeNotificationType.FortuneWheel_FreeSpinAvailable);
-
-            if (canSpinFree || (canSpinRv && !trackingData.IsDailyBadgeDismissedToday(BadgeNotificationType.FortuneWheel_SpinAvailable)))
-                SetNotification(BadgeNotificationType.FortuneWheel_SpinAvailable);
-            else
-                ClearNotification(BadgeNotificationType.FortuneWheel_SpinAvailable);
         }
 
         public void RefreshUserProfileBadges()

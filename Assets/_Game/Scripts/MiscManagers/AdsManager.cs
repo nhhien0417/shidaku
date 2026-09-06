@@ -45,21 +45,21 @@ public class AdsManager
         MocaLib.Instance.AdManager.RegisterAdRevenuePaidEvent(AdType.RewardedVideo, (adRevenueData) =>
         {
             //Debug.Log($"[AdsManager] Ad Revenue Paid: {adRevenueData.AdFormat} {adRevenueData.Value} {adRevenueData.Currency} from {adRevenueData.AdSource} for placement {_lastRewardAdPlacement}");
-            Track.Gameplay.OnAdRevenue(adRevenueData.Value);
+            Track.Ads.OnAdRevenue(adRevenueData.Value);
             MocaLib.Instance.AnalyticsManager.LogAdRevenue(AnalyticsContext.CurrentPlayMode, AnalyticsContext.CurrentLevel, _lastRewardAdPlacement, adRevenueData, GetParametersForAdEvent(adRevenueData, _lastRewardAdReason));
         });
 
         MocaLib.Instance.AdManager.RegisterAdRevenuePaidEvent(AdType.Interstitial, (adRevenueData) =>
         {
             //Debug.Log($"[AdsManager] Ad Revenue Paid: {adRevenueData.AdFormat} {adRevenueData.Value} {adRevenueData.Currency} from {adRevenueData.AdSource} for placement {_lastRewardAdPlacement}");
-            Track.Gameplay.OnAdRevenue(adRevenueData.Value);
+            Track.Ads.OnAdRevenue(adRevenueData.Value);
             MocaLib.Instance.AnalyticsManager.LogAdRevenue(AnalyticsContext.CurrentPlayMode, AnalyticsContext.CurrentLevel, _lastInterstitialAdPlacement, adRevenueData, GetParametersForAdEvent(adRevenueData, _lastInterstitialAdReason));
         });
 
         MocaLib.Instance.AdManager.RegisterAdRevenuePaidEvent(AdType.Banner, (adRevenueData) =>
         {
             //Debug.Log($"[AdsManager] Ad Revenue Paid: {adRevenueData.AdFormat} {adRevenueData.Value} {adRevenueData.Currency} from {adRevenueData.AdSource} for placement {_lastRewardAdPlacement}");
-            Track.Gameplay.OnAdRevenue(adRevenueData.Value);
+            Track.Ads.OnAdRevenue(adRevenueData.Value);
             _lastGeneralAdPlacement = Placement.MainGameplay;
             _lastBannerAdReason = "";
             MocaLib.Instance.AnalyticsManager.LogAdRevenue(AnalyticsContext.CurrentPlayMode, AnalyticsContext.CurrentLevel, _lastGeneralAdPlacement, adRevenueData, GetParametersForAdEvent(adRevenueData, _lastBannerAdReason));
@@ -103,7 +103,7 @@ public class AdsManager
         {
             if (success)
             {
-                Track.Gameplay.OnRvAd(duration);
+                Track.Ads.OnRvAd(duration);
                 OnAdWatched?.Invoke();
                 onCompleted?.Invoke();
             }
@@ -142,7 +142,7 @@ public class AdsManager
                 if (success)
                 {
                     _lastTimeInterDisplay = UnityEngine.Time.realtimeSinceStartup;
-                    Track.Gameplay.OnInterAd(duration);
+                    Track.Ads.OnInterAd(duration);
                     Track.Ads.InterShow(placement);
                     OnAdWatched?.Invoke();
                 }
@@ -185,7 +185,7 @@ public class AdsManager
                     {
                         _lastTimeInterDisplay = UnityEngine.Time.realtimeSinceStartup;
                         _gameplayEndCountWithoutIntersAd = 0;
-                        Track.Gameplay.OnInterAd(duration);
+                        Track.Ads.OnInterAd(duration);
                         OnAdWatched?.Invoke();
                         Track.Ads.InterShow(_lastInterstitialAdPlacement);
                     }

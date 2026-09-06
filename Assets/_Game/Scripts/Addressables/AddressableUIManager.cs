@@ -56,11 +56,11 @@ public class AddressableUIManager: UIManager
         uiGroups.Add(uiGroup);
         uiGroup.RegisterOnHide(OnUIGroupHided);
         uiGroup.gameObject.SetActive(false);
-        
+
         _uiLoading.Hide();
         _uiGroupsOnLoading.Remove(uiName);
         Addressables.Release(handle);
-        
+
         return uiGroup;
     }
 
@@ -71,12 +71,4 @@ public class AddressableUIManager: UIManager
         if (!_pathToUIGroups.EndsWith("/"))
             _pathToUIGroups += "/";
     }
-
-#if UNITY_EDITOR
-    [ContextMenu("Test Load UIGroup")]
-    public async void TestLoadUIGroup()
-    {
-        Instance.ShowUIGroupOverlay<UIWin>();
-    }
-#endif
 }

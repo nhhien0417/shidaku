@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using Gameplay;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UserDataPack;
 
 public class NavigationController : SingletonComponent<NavigationController>
 {
@@ -11,42 +9,11 @@ public class NavigationController : SingletonComponent<NavigationController>
 
     public void LoadToMainMenu(bool useAnim = true)
     {
-        LoadScene(Key.MAIN_MENU_SCENE, () =>
-        {
-            if (GameplayManager.CurrentMode == GameMode.DailyChallenge)
-            {
-                var currentLevel = UserData.Instance.GameplayData.CurrentGameplayLevel;
-                if (Design.DesignDataHolder.Instance.FeatureUnlockData.IsUnlocked(Design.DataHolder.FeatureType.DailyChallenge, currentLevel))
-                {
-                    UIManager.Instance.ShowUIGroup<UIDailyChallenge>();
-                }
-            }
-            else if (GameplayManager.CurrentMode == GameMode.Art)
-            {
-                var currentLevel = UserData.Instance.GameplayData.CurrentGameplayLevel;
-                if (Design.DesignDataHolder.Instance.FeatureUnlockData.IsUnlocked(Design.DataHolder.FeatureType.ArtPuzzle, currentLevel))
-                {
-                    UIManager.Instance.ShowUIGroup<UIArtPuzzle>();
-                }
-            }
-        }, useAnim);
+        LoadScene(Key.MAIN_MENU_SCENE, null, useAnim);
     }
 
-    public void LoadToGameplay(GameMode mode = GameMode.Normal, Action onComplete = null)
+    public void LoadToGameplay(Action onComplete = null)
     {
-        if (UserData.Instance.DayStreakData.CheckStreakReset(new UIDayStreak.Data
-        {
-            OnContinue = () =>
-            {
-                GameplayManager.CurrentMode = mode;
-                LoadScene(Key.GAMEPLAY_SCENE, onComplete, true);
-            }
-        }))
-        {
-            return;
-        }
-
-        GameplayManager.CurrentMode = mode;
         LoadScene(Key.GAMEPLAY_SCENE, onComplete, true);
     }
 
@@ -66,7 +33,6 @@ public class NavigationController : SingletonComponent<NavigationController>
         DataHelper.PlayingLevel = level;
         string levelPath = Key.LEVEL_PATH + level;
         LoadSceneAsync(levelPath, LoadSceneMode.Single, useAnim, onComplete);
-        UIManager.Instance.ShowUIGroup<UIIngame>();
     }
 
     public void LoadScene(string scene, Action onComplete = null, bool useAnim = true)

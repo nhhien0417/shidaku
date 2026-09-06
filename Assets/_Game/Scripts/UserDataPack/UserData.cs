@@ -69,18 +69,6 @@ namespace UserDataPack
             }
             GameplayData.FixData();
 
-            if (ArtPuzzleData == null)
-            {
-                ArtPuzzleData = new();
-            }
-            ArtPuzzleData.FixData();
-
-            if (DailyChallengeData == null)
-            {
-                DailyChallengeData = new();
-            }
-            DailyChallengeData.FixData();
-
             if (UserProfile == null)
             {
                 UserProfile = new();
@@ -98,18 +86,6 @@ namespace UserDataPack
                 FirstTimeData = new();
             }
             FirstTimeData.FixData();
-
-            if (DayStreakData == null)
-            {
-                DayStreakData = new();
-            }
-            DayStreakData.FixData();
-
-            if (FortuneWheelData == null)
-            {
-                FortuneWheelData = new();
-            }
-            FortuneWheelData.FixData();
 
             if (CollectionData == null)
             {
@@ -150,7 +126,6 @@ namespace UserDataPack
                 TrackingData.LastOpenDate = nowOnTicks;
             }
 
-            DayStreakData.UpdateData();
             SecuredData.UpdateData();
             PromotionOfferData.UpdateData();
         }
@@ -160,12 +135,8 @@ namespace UserDataPack
         // Items
         public UserProfile UserProfile = new();
         public CustomizeData CustomizeData = new();
-        public FortuneWheelData FortuneWheelData = new();
-        public DayStreakData DayStreakData = new();
         public SecuredData SecuredData = new();
         public GameplayData GameplayData = new();
-        public ArtPuzzleData ArtPuzzleData = new();
-        public DailyChallengeData DailyChallengeData = new();
         public FirstTimeData FirstTimeData = new();
         public SubscriptionHolder SubscriptionData = new();
         public CollectionData CollectionData = new();
@@ -350,14 +321,6 @@ namespace UserDataPack
                     }
                     break;
 
-                case ItemId.UnlockAllArtPuzzles:
-                    {
-                        if (amount > 0)
-                            ArtPuzzleData.UnlockAllArtPuzzles = true;
-                        finalBalance = amount;
-                    }
-                    break;
-
                 default:
                     {
                         var item = SecuredData.AddNonconsumableItem(itemId, amount);
@@ -438,14 +401,6 @@ namespace UserDataPack
         public bool AutoXActivated()
         {
             return SecuredData.AutoXActivated();
-        }
-
-        public void ActivateAutoXForCurrentPuzzle(string puzzleId)
-        {
-            if (!GameplayData.AutoXFreePuzzleIds.Contains(puzzleId))
-            {
-                GameplayData.AutoXFreePuzzleIds.Add(puzzleId);
-            }
         }
         #endregion
 

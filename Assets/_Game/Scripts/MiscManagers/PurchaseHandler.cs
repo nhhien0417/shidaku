@@ -129,15 +129,15 @@ public class PurchaseHandler
         {
             case ItemId.Coin:
             {
-                if (UIManager.Instance?.TopUIGroup is UIShop shop && shop.FocusToItem(ItemId.Coin))
-                {
-                    break;
-                }
-
-                UIManager.Instance?.ShowUIGroupOverlay<UIShop>(new UIShop.Data
-                {
-                    FocusResourceId = ItemId.Coin
-                });
+                // if (UIManager.Instance?.TopUIGroup is UIShop shop && shop.FocusToItem(ItemId.Coin))
+                // {
+                //     break;
+                // }
+                //
+                // UIManager.Instance?.ShowUIGroupOverlay<UIShop>(new UIShop.Data
+                // {
+                //     FocusResourceId = ItemId.Coin
+                // });
                 break;
             }
         }

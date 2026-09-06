@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Common.Comparison;
 using Design.Ids;
-using Gameplay;
 using UnityEngine;
 
 namespace Design.Conditions
@@ -122,15 +121,6 @@ namespace Design.Conditions
                     return null;
                 }
 
-                case ConditionId.BoosterUnlocked:
-                {
-                    if (ItemId.IsBooster(dataValues[1]))
-                        return new BoosterUnlockedCondition(dataValues[1]);
-
-                    Debug.LogError($"Invalid booster value: {dataValues[1]}");
-                    return null;
-                }
-
                 case ConditionId.ItemAmount:
                 {
                     var compareValues = GetCompareConditionValues<int>(dataValues[1]);
@@ -138,46 +128,6 @@ namespace Design.Conditions
                         return new ItemAmountCondition(compareValues.CompareTarget, compareValues.CompareValue, compareValues.ComparisonType);
 
                     Debug.LogError($"Invalid item amount condition value: {dataValues[1]}");
-                    return null;
-                }
-
-                case ConditionId.Gameplay_Normal_AttemptNum:
-                {
-                    var compareValues = GetCompareConditionValues<int>(dataValues[1]);
-                    if (compareValues != null)
-                        return new Gameplay.AttemptNumCondition(GameMode.Normal, compareValues.CompareValue, compareValues.ComparisonType);
-
-                    Debug.LogError($"Invalid gameplay attempt num condition value: {dataValues[1]}");
-                    return null;
-                }
-
-                case ConditionId.Gameplay_Normal_BoostersUsed:
-                {
-                    var compareValues = GetCompareConditionValues<int>(dataValues[1]);
-                    if (compareValues != null)
-                        return new Gameplay.BoostersUsedCondition(GameMode.Normal, compareValues.CompareValue, compareValues.ComparisonType);
-
-                    Debug.LogError($"Invalid gameplay boosters used condition value: {dataValues[1]}");
-                    return null;
-                }
-
-                case ConditionId.Gameplay_Normal_TotalPuzzleSolveTime:
-                {
-                    var compareValues = GetCompareConditionValues<float>(dataValues[1]);
-                    if (compareValues != null)
-                        return new Gameplay.TotalPuzzleSolveTimeCondition(GameMode.Normal, compareValues.CompareValue, compareValues.ComparisonType);
-
-                    Debug.LogError($"Invalid gameplay total puzzle solve time condition value: {dataValues[1]}");
-                    return null;
-                }
-
-                case ConditionId.Gameplay_Normal_LevelDifficulty:
-                {
-                    var compareValues = GetCompareConditionValues<float>(dataValues[1]);
-                    if (compareValues != null)
-                        return new Gameplay.LevelDifficultyCondition(GameMode.Normal, compareValues.CompareValue, compareValues.ComparisonType);
-
-                    Debug.LogError($"Invalid gameplay level difficulty condition value: {dataValues[1]}");
                     return null;
                 }
 

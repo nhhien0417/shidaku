@@ -19,25 +19,14 @@ namespace Design
         public ShopItemData NormalShopItemData;
         public CustomizeShopItemData CustomizeShopItemData;
         // public SubscriptionData SubscriptionData;
-        public LevelSettingsData LevelSettingsData;
-        public LevelLabelData LevelLabelData;
-        public LevelConfigs LevelConfigs;
 
-        public BoosterUnlockedData BoosterUnlockedData;
         public FeatureUnlockData FeatureUnlockData;
-
-        public FixedLevelSequenceData FixedLevelSequenceData;
-        public ArtLevelSequenceData ArtLevelSequenceData;
 
         public ItemConversionData ItemConversionData;
         public RestorableItems RestorableItems;
         public ItemPriceData ItemPriceData;
         public RandomItemData RandomItemData;
 
-        public DailyChallengeRewardsData DailyChallengeRewardsData;
-        public DayStreakRewardData DayStreakRewardData;
-        public FortuneWheelRewardData FortuneWheelRewardData;
-        public LevelRewardData LevelRewardData;
         public CoinResourceSpendData CoinResourceSpendData;
 
         public PredefinedOfferData PredefinedOfferData;
@@ -52,25 +41,10 @@ namespace Design
             if (remoteConfigMng == null)
                 return;
 
-            var fortuneWheelReward = remoteConfigMng.GetConfig(RemoteConfigKey.FORTUNE_WHEEL_CONFIG, "");
-            if (!string.IsNullOrEmpty(fortuneWheelReward))
-            {
-                FortuneWheelRewardData.ApplyRemoteConfig(fortuneWheelReward);
-            }
-
             var featureUnlock = remoteConfigMng.GetConfig(RemoteConfigKey.FEATURE_UNLOCK_CONFIG, "");
             if (!string.IsNullOrEmpty(featureUnlock))
             {
                 FeatureUnlockData.ApplyRemoteConfig(featureUnlock);
-            }
-
-            var levelConfig = remoteConfigMng.GetConfig(RemoteConfigKey.LEVEL_CONFIGS, "");
-            LevelConfigs.ApplyRemoteConfig(levelConfig);
-
-            var levelLabelConfig = remoteConfigMng.GetConfig(RemoteConfigKey.LEVEL_LABEL_CONFIG, "");
-            if (!string.IsNullOrEmpty(levelLabelConfig))
-            {
-                LevelLabelData.ApplyRemoteConfig(levelLabelConfig);
             }
 
             var uiFlows = remoteConfigMng.GetConfig(RemoteConfigKey.UI_FLOWS, "");
@@ -96,12 +70,6 @@ namespace Design
             {
                 NormalShopItemData.ApplyRemoteConfig(shopItemConfig);
                 Iap.IapCatalogSync.SyncNewProducts(GetAllIapProductIds());
-            }
-
-            var levelRewardConfig = remoteConfigMng.GetConfig(RemoteConfigKey.LEVEL_REWARD_CONFIG, "");
-            if (!string.IsNullOrEmpty(levelRewardConfig))
-            {
-                LevelRewardData.ApplyRemoteConfig(levelRewardConfig);
             }
 
             var coinResourceSpendConfig = remoteConfigMng.GetConfig(RemoteConfigKey.COIN_RESOURCE_SPEND_CONFIG, "");

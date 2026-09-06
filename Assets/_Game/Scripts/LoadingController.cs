@@ -28,7 +28,7 @@ public class LoadingController : BaseLoadingController
     [SerializeField] protected float _minLoadingTime = 1.5f;
 
     protected static float _flexMaxLoadingTime = 7f;
-    protected List<Item> _pendingPurchaseItems = new ();
+    protected List<Item> _pendingPurchaseItems = new();
 
     protected override IEnumerator StartLoadingScreen()
     {
@@ -37,7 +37,7 @@ public class LoadingController : BaseLoadingController
         UpdateLoadingBarProgress(_loadingTime);
         yield return GameLocalization.InitializeRoutine(); // IMPORTANT: do not place this line after op.allowSceneActivation = false
 
-        var targetScene = UserData.Instance.GameplayData.TutorialCompleted ? Key.MAIN_MENU_SCENE : Key.TUTORIAL_SCENE;
+        var targetScene = Key.MAIN_MENU_SCENE;
         AsyncOperation op = SceneManager.LoadSceneAsync(targetScene);
         op.allowSceneActivation = false;
 
@@ -45,9 +45,9 @@ public class LoadingController : BaseLoadingController
         var step = 0;
         _flexMaxLoadingTime = _maxLoadingTime;
 
-        #if !UNITY_EDITOR
+#if !UNITY_EDITOR
         DebugLogHelper.PauseLogging(_maxLoadingTime, false, () => Debug.unityLogger.logEnabled = false);
-        #endif
+#endif
 
         while (!_loadingDone)
         {
@@ -111,10 +111,10 @@ public class LoadingController : BaseLoadingController
                         Iap.IapCatalogSync.MarkIapInitialized(initialIapProducts);
                         Iap.IapCatalogSync.SyncNewProducts(DesignDataHolder.Instance?.GetAllIapProductIds());
 
-                        #if UNITY_ANDROID
+#if UNITY_ANDROID
                         var purchasedProducts = MocaLib.Instance.IAPManager.GetAllPurchasedNonConsumables();
                         DesignDataHolder.Instance?.RestorePurchasedNonConsumableItems(purchasedProducts);
-                        #endif
+#endif
                     });
 
                     while (!MocaLib.Instance.FirebaseService.IsInitialized && _loadingTime < _maxLoadingTime)
@@ -260,7 +260,7 @@ public class LoadingController : BaseLoadingController
         if (isPendingPurchase)
         {
             var items = DesignDataHolder.Instance?.ProcessPendingPurchase(product);
-            if (items is {Count: > 0})
+            if (items is { Count: > 0 })
                 _pendingPurchaseItems.AddRange(items);
         }
 #if UNITY_IOS

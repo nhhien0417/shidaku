@@ -162,19 +162,9 @@ namespace Game.Leaderboard
         private static List<int> GetEligibleAvatarFrameIds(int estimatedPlayedDays, int totalFrameCount)
         {
             var eligibleIds = new List<int> { 0 };
-            var milestones = DesignDataHolder.Instance?.DayStreakRewardData?.Milestones;
-            if (milestones == null)
-                return eligibleIds;
-
-            foreach (var milestone in milestones)
+            for (var i = 1; i < totalFrameCount; i++)
             {
-                if (milestone.RequiredStreak <= estimatedPlayedDays
-                    && milestone.AvatarFrameId > 0
-                    && milestone.AvatarFrameId < totalFrameCount
-                    && !eligibleIds.Contains(milestone.AvatarFrameId))
-                {
-                    eligibleIds.Add(milestone.AvatarFrameId);
-                }
+                eligibleIds.Add(i);
             }
 
             return eligibleIds;
@@ -182,19 +172,7 @@ namespace Game.Leaderboard
 
         private static int GetEligibleProfileBannerCount(int totalBannerCount)
         {
-            if (totalBannerCount <= 1)
-                return 1;
-
-            var milestones = DesignDataHolder.Instance?.DailyChallengeRewardsData?.Milestones;
-            var hasMonthlyCompletionMilestone = milestones?.Exists(milestone => milestone.RequiredDays == -1) == true;
-            if (!hasMonthlyCompletionMilestone)
-                return 1;
-
-            var now = DateTimeManager.IsUpToDate ? DateTimeManager.Now : DateTime.UtcNow;
-            var elapsedMonths = (now.Year - DailyChallengeStartDate.Year) * MonthsPerYear
-                                + now.Month - DailyChallengeStartDate.Month;
-            var completedMonthCount = Math.Min(MonthsPerYear, Math.Max(0, elapsedMonths));
-            return Math.Min(totalBannerCount, completedMonthCount + 1);
+            return Math.Max(1, totalBannerCount);
         }
     }
 }
