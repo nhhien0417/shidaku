@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ef4bed29e97ca847bb6f34c167906f0, type: 3}
+  m_Name: PuzzleCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::Shidaku.PuzzleCatalog
+  Puzzles:
+  - {fileID: 11400000, guid: 3c3321146e4fe844187ea17f9d8d019a, type: 2}
+  - {fileID: 11400000, guid: dfd2eb1489db3f0448909c7dd9e1d4a8, type: 2}
+  - {fileID: 11400000, guid: cacb971ed7897d846b1fa51de2d7c62e, type: 2}
+  - {fileID: 11400000, guid: b0a6348a6f676514cb3a34d4ed76beb9, type: 2}

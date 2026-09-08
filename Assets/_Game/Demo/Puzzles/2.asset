@@ -1,0 +1,1720 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a36eef1507753442a4ef4d31285b69a, type: 3}
+  m_Name: 2
+  m_EditorClassIdentifier: Assembly-CSharp::Shidaku.PuzzleData
+  SourceArt: {fileID: 11400000, guid: 93954da400caa2e49a73c0430400e3ef, type: 2}
+  Width: 31
+  Height: 36
+  SectionOf: ffffffffffffffff000000000000000000000000000000000100000001000000010000000100000001000000010000000100000001000000010000000200000002000000020000000200000002000000030000000300000003000000030000000300000003000000030000000300000003000000ffffffffffffffffffffffff00000000000000000000000000000000000000000100000001000000010000000100000001000000010000000100000001000000010000000200000002000000020000000200000002000000030000000300000003000000030000000300000003000000030000000300000003000000ffffffffffffffffffffffff00000000000000000000000000000000000000000100000001000000010000000100000001000000010000000100000001000000010000000200000002000000020000000200000003000000030000000300000003000000030000000300000003000000030000000300000003000000ffffffffffffffffffffffff00000000000000000000000000000000000000000100000001000000010000000100000001000000010000000100000001000000010000000200000002000000020000000200000002000000030000000300000003000000030000000300000003000000030000000300000003000000ffffffffffffffff0000000000000000000000000000000000000000000000000100000001000000010000000100000001000000010000000100000001000000010000000200000002000000020000000200000002000000030000000300000003000000030000000300000003000000030000000300000003000000ffffffffffffffff0000000000000000000000000000000000000000000000000100000001000000010000000100000001000000010000000100000001000000010000000200000002000000020000000200000002000000030000000300000003000000030000000300000003000000030000000300000003000000ffffffffffffffff000000000000000000000000000000000000000000000000010000000100000001000000010000000100000001000000010000000100000001000000020000000200000002000000020000000200000003000000030000000300000003000000030000000300000004000000040000000400000004000000ffffffff0000000000000000000000000000000000000000000000000100000001000000010000000100000001000000010000000100000001000000010000000200000002000000020000000200000002000000030000000300000003000000030000000300000003000000040000000400000004000000040000000400000000000000000000000000000000000000000000000000000001000000010000000100000001000000010000000100000001000000010000000100000002000000050000000200000002000000020000000300000003000000030000000300000003000000030000000400000004000000040000000400000004000000060000000600000006000000060000000600000006000000010000000100000001000000010000000100000001000000010000000100000001000000050000000500000005000000050000000500000003000000030000000300000003000000030000000300000004000000040000000400000004000000040000000600000006000000060000000600000006000000060000000700000007000000070000000700000007000000070000000700000007000000070000000500000005000000050000000500000005000000080000000800000008000000080000000800000008000000040000000400000004000000040000000400000006000000060000000600000006000000060000000600000007000000070000000700000007000000070000000700000007000000070000000700000005000000050000000500000005000000050000000800000008000000080000000800000008000000080000000400000004000000040000000400000004000000060000000600000006000000060000000600000006000000070000000700000007000000070000000700000007000000070000000700000007000000050000000500000005000000050000000500000008000000080000000800000008000000080000000800000004000000040000000400000004000000ffffffffffffffff0600000006000000060000000600000006000000070000000700000007000000070000000700000007000000070000000700000007000000050000000500000005000000050000000500000008000000080000000800000008000000080000000800000004000000040000000400000004000000ffffffffffffffff0600000006000000060000000600000006000000070000000700000007000000070000000700000007000000070000000700000007000000050000000500000005000000050000000500000008000000080000000800000008000000080000000800000004000000040000000400000004000000ffffffffffffffffffffffff06000000060000000600000006000000070000000700000007000000070000000700000007000000070000000700000007000000050000000500000005000000050000000500000008000000080000000800000008000000080000000800000004000000040000000400000004000000ffffffffffffffffffffffff060000000600000006000000060000000700000007000000070000000700000007000000070000000700000007000000070000000500000005000000050000000500000005000000080000000800000008000000080000000800000008000000040000000400000004000000ffffffffffffffffffffffffffffffff060000000600000006000000060000000700000007000000070000000700000007000000070000000700000007000000070000000500000005000000050000000500000008000000080000000800000008000000080000000800000008000000040000000400000004000000ffffffffffffffffffffffffffffffff0600000006000000060000000600000007000000070000000700000007000000070000000700000007000000070000000700000005000000050000000500000005000000050000000800000008000000080000000800000008000000080000000400000004000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff0600000006000000070000000700000007000000070000000700000007000000070000000700000007000000050000000500000005000000050000000500000008000000080000000800000008000000080000000800000004000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff07000000070000000700000007000000070000000700000007000000070000000700000007000000090000000900000009000000090000000900000008000000080000000800000008000000080000000800000004000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff07000000070000000700000007000000070000000700000007000000070000000700000007000000090000000900000009000000090000000a0000000a0000000a0000000a0000000a0000000a0000000a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b00000009000000090000000900000009000000090000000a0000000a0000000a0000000a0000000a0000000a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000900000009000000090000000900000009000000090000000a0000000a0000000a0000000a0000000a0000000400000004000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff0b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b00000009000000090000000900000009000000090000000a0000000a0000000a0000000a0000000a0000000a00000004000000040000000a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff0b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000c0000000c0000000c0000000c0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff0b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000c0000000c0000000c0000000c0000000c0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000c0000000c0000000c0000000c0000000c0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000b0000000c0000000c0000000c0000000c0000000c0000000a0000000a0000000a0000000a0000000a0000000a0000000a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d0000000d0000000d0000000d0000000d0000000d0000000d0000000d0000000d0000000d0000000c0000000c0000000c0000000c0000000e0000000e0000000e0000000e0000000e0000000e0000000a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d0000000d0000000d0000000d0000000d0000000d0000000d0000000d0000000d0000000c0000000c0000000c0000000c0000000c0000000e0000000e0000000e0000000e0000000e0000000e0000000a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d0000000d0000000d0000000d0000000d0000000d0000000d0000000d0000000d0000000c0000000c0000000c0000000c0000000c0000000e0000000e0000000e0000000e0000000e0000000e0000000a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d0000000d0000000d0000000d0000000d0000000d0000000d0000000d0000000c0000000c0000000c0000000c0000000c0000000e0000000e0000000e0000000e0000000e0000000e000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d0000000d0000000d0000000d0000000d0000000d0000000c0000000c0000000c0000000c0000000c0000000e0000000e0000000e0000000e000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d0000000d0000000d0000000d0000000d0000000c0000000c0000000c0000000c0000000c0000000e0000000e0000000e0000000e000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0d0000000d0000000d0000000d0000000c0000000c0000000c0000000c0000000c0000000e0000000e000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffi
+  Sections:
+  - Regions:
+    - Rect:
+        x: 2
+        y: 0
+        width: 4
+        height: 1
+      ClueCell: {x: 2, y: 0}
+    - Rect:
+        x: 5
+        y: 1
+        width: 1
+        height: 6
+      ClueCell: {x: 5, y: 4}
+    - Rect:
+        x: 1
+        y: 1
+        width: 1
+        height: 3
+      ClueCell: {x: 1, y: 2}
+    - Rect:
+        x: 1
+        y: 4
+        width: 1
+        height: 4
+      ClueCell: {x: 1, y: 5}
+    - Rect:
+        x: 2
+        y: 1
+        width: 2
+        height: 7
+      ClueCell: {x: 2, y: 4}
+    - Rect:
+        x: 4
+        y: 1
+        width: 1
+        height: 6
+      ClueCell: {x: 4, y: 5}
+    - Rect:
+        x: 0
+        y: 4
+        width: 1
+        height: 1
+      ClueCell: {x: 0, y: 4}
+    - Rect:
+        x: 0
+        y: 5
+        width: 1
+        height: 3
+      ClueCell: {x: 0, y: 7}
+    - Rect:
+        x: 0
+        y: 8
+        width: 4
+        height: 1
+      ClueCell: {x: 2, y: 8}
+    - Rect:
+        x: 4
+        y: 7
+        width: 1
+        height: 1
+      ClueCell: {x: 4, y: 7}
+    - Rect:
+        x: 4
+        y: 8
+        width: 1
+        height: 1
+      ClueCell: {x: 4, y: 8}
+    - Rect:
+        x: 5
+        y: 7
+        width: 1
+        height: 2
+      ClueCell: {x: 5, y: 7}
+  - Regions:
+    - Rect:
+        x: 6
+        y: 0
+        width: 3
+        height: 1
+      ClueCell: {x: 7, y: 0}
+    - Rect:
+        x: 9
+        y: 0
+        width: 3
+        height: 1
+      ClueCell: {x: 9, y: 0}
+    - Rect:
+        x: 12
+        y: 0
+        width: 3
+        height: 1
+      ClueCell: {x: 12, y: 0}
+    - Rect:
+        x: 6
+        y: 1
+        width: 3
+        height: 1
+      ClueCell: {x: 7, y: 1}
+    - Rect:
+        x: 6
+        y: 2
+        width: 3
+        height: 1
+      ClueCell: {x: 8, y: 2}
+    - Rect:
+        x: 9
+        y: 1
+        width: 3
+        height: 2
+      ClueCell: {x: 10, y: 2}
+    - Rect:
+        x: 6
+        y: 3
+        width: 4
+        height: 1
+      ClueCell: {x: 6, y: 3}
+    - Rect:
+        x: 6
+        y: 4
+        width: 5
+        height: 1
+      ClueCell: {x: 7, y: 4}
+    - Rect:
+        x: 12
+        y: 1
+        width: 3
+        height: 1
+      ClueCell: {x: 12, y: 1}
+    - Rect:
+        x: 12
+        y: 2
+        width: 1
+        height: 3
+      ClueCell: {x: 12, y: 3}
+    - Rect:
+        x: 11
+        y: 5
+        width: 2
+        height: 1
+      ClueCell: {x: 12, y: 5}
+    - Rect:
+        x: 7
+        y: 6
+        width: 6
+        height: 1
+      ClueCell: {x: 10, y: 6}
+    - Rect:
+        x: 6
+        y: 7
+        width: 1
+        height: 1
+      ClueCell: {x: 6, y: 7}
+    - Rect:
+        x: 8
+        y: 7
+        width: 5
+        height: 1
+      ClueCell: {x: 10, y: 7}
+    - Rect:
+        x: 6
+        y: 8
+        width: 2
+        height: 1
+      ClueCell: {x: 6, y: 8}
+    - Rect:
+        x: 9
+        y: 8
+        width: 4
+        height: 1
+      ClueCell: {x: 11, y: 8}
+    - Rect:
+        x: 6
+        y: 9
+        width: 7
+        height: 1
+      ClueCell: {x: 9, y: 9}
+    - Rect:
+        x: 13
+        y: 2
+        width: 2
+        height: 7
+      ClueCell: {x: 14, y: 4}
+    - Rect:
+        x: 13
+        y: 9
+        width: 2
+        height: 1
+      ClueCell: {x: 13, y: 9}
+    - Rect:
+        x: 10
+        y: 3
+        width: 1
+        height: 1
+      ClueCell: {x: 10, y: 3}
+    - Rect:
+        x: 11
+        y: 3
+        width: 1
+        height: 1
+      ClueCell: {x: 11, y: 3}
+    - Rect:
+        x: 11
+        y: 4
+        width: 1
+        height: 1
+      ClueCell: {x: 11, y: 4}
+    - Rect:
+        x: 6
+        y: 5
+        width: 1
+        height: 2
+      ClueCell: {x: 6, y: 6}
+    - Rect:
+        x: 7
+        y: 5
+        width: 4
+        height: 1
+      ClueCell: {x: 8, y: 5}
+    - Rect:
+        x: 7
+        y: 7
+        width: 1
+        height: 1
+      ClueCell: {x: 7, y: 7}
+    - Rect:
+        x: 8
+        y: 8
+        width: 1
+        height: 1
+      ClueCell: {x: 8, y: 8}
+  - Regions:
+    - Rect:
+        x: 15
+        y: 0
+        width: 5
+        height: 2
+      ClueCell: {x: 16, y: 0}
+    - Rect:
+        x: 16
+        y: 2
+        width: 3
+        height: 1
+      ClueCell: {x: 18, y: 2}
+    - Rect:
+        x: 17
+        y: 3
+        width: 1
+        height: 1
+      ClueCell: {x: 17, y: 3}
+    - Rect:
+        x: 15
+        y: 2
+        width: 1
+        height: 1
+      ClueCell: {x: 15, y: 2}
+    - Rect:
+        x: 15
+        y: 3
+        width: 1
+        height: 6
+      ClueCell: {x: 15, y: 7}
+    - Rect:
+        x: 16
+        y: 4
+        width: 1
+        height: 4
+      ClueCell: {x: 16, y: 7}
+    - Rect:
+        x: 17
+        y: 5
+        width: 1
+        height: 2
+      ClueCell: {x: 17, y: 6}
+    - Rect:
+        x: 18
+        y: 4
+        width: 1
+        height: 2
+      ClueCell: {x: 18, y: 5}
+    - Rect:
+        x: 19
+        y: 3
+        width: 1
+        height: 3
+      ClueCell: {x: 19, y: 5}
+    - Rect:
+        x: 16
+        y: 3
+        width: 1
+        height: 1
+      ClueCell: {x: 16, y: 3}
+    - Rect:
+        x: 18
+        y: 3
+        width: 1
+        height: 1
+      ClueCell: {x: 18, y: 3}
+    - Rect:
+        x: 17
+        y: 4
+        width: 1
+        height: 1
+      ClueCell: {x: 17, y: 4}
+    - Rect:
+        x: 18
+        y: 6
+        width: 2
+        height: 1
+      ClueCell: {x: 18, y: 6}
+    - Rect:
+        x: 17
+        y: 7
+        width: 1
+        height: 1
+      ClueCell: {x: 17, y: 7}
+    - Rect:
+        x: 18
+        y: 7
+        width: 2
+        height: 1
+      ClueCell: {x: 18, y: 7}
+    - Rect:
+        x: 17
+        y: 8
+        width: 2
+        height: 1
+      ClueCell: {x: 18, y: 8}
+    - Rect:
+        x: 19
+        y: 8
+        width: 1
+        height: 1
+      ClueCell: {x: 19, y: 8}
+  - Regions:
+    - Rect:
+        x: 20
+        y: 0
+        width: 1
+        height: 2
+      ClueCell: {x: 20, y: 1}
+    - Rect:
+        x: 21
+        y: 0
+        width: 1
+        height: 1
+      ClueCell: {x: 21, y: 0}
+    - Rect:
+        x: 22
+        y: 0
+        width: 1
+        height: 1
+      ClueCell: {x: 22, y: 0}
+    - Rect:
+        x: 23
+        y: 0
+        width: 2
+        height: 1
+      ClueCell: {x: 24, y: 0}
+    - Rect:
+        x: 24
+        y: 1
+        width: 1
+        height: 2
+      ClueCell: {x: 24, y: 2}
+    - Rect:
+        x: 25
+        y: 0
+        width: 1
+        height: 2
+      ClueCell: {x: 25, y: 1}
+    - Rect:
+        x: 26
+        y: 0
+        width: 2
+        height: 1
+      ClueCell: {x: 27, y: 0}
+    - Rect:
+        x: 26
+        y: 1
+        width: 2
+        height: 1
+      ClueCell: {x: 26, y: 1}
+    - Rect:
+        x: 28
+        y: 0
+        width: 1
+        height: 2
+      ClueCell: {x: 28, y: 1}
+    - Rect:
+        x: 28
+        y: 2
+        width: 1
+        height: 3
+      ClueCell: {x: 28, y: 2}
+    - Rect:
+        x: 27
+        y: 5
+        width: 2
+        height: 1
+      ClueCell: {x: 28, y: 5}
+    - Rect:
+        x: 21
+        y: 1
+        width: 1
+        height: 1
+      ClueCell: {x: 21, y: 1}
+    - Rect:
+        x: 22
+        y: 1
+        width: 1
+        height: 1
+      ClueCell: {x: 22, y: 1}
+    - Rect:
+        x: 21
+        y: 2
+        width: 2
+        height: 1
+      ClueCell: {x: 22, y: 2}
+    - Rect:
+        x: 20
+        y: 3
+        width: 2
+        height: 3
+      ClueCell: {x: 21, y: 4}
+    - Rect:
+        x: 22
+        y: 3
+        width: 2
+        height: 1
+      ClueCell: {x: 23, y: 3}
+    - Rect:
+        x: 22
+        y: 4
+        width: 3
+        height: 1
+      ClueCell: {x: 24, y: 4}
+    - Rect:
+        x: 22
+        y: 5
+        width: 2
+        height: 1
+      ClueCell: {x: 22, y: 5}
+    - Rect:
+        x: 23
+        y: 1
+        width: 1
+        height: 1
+      ClueCell: {x: 23, y: 1}
+    - Rect:
+        x: 19
+        y: 2
+        width: 2
+        height: 1
+      ClueCell: {x: 19, y: 2}
+    - Rect:
+        x: 23
+        y: 2
+        width: 1
+        height: 1
+      ClueCell: {x: 23, y: 2}
+    - Rect:
+        x: 25
+        y: 2
+        width: 1
+        height: 1
+      ClueCell: {x: 25, y: 2}
+    - Rect:
+        x: 26
+        y: 2
+        width: 2
+        height: 1
+      ClueCell: {x: 27, y: 2}
+    - Rect:
+        x: 25
+        y: 3
+        width: 2
+        height: 1
+      ClueCell: {x: 26, y: 3}
+    - Rect:
+        x: 27
+        y: 3
+        width: 1
+        height: 2
+      ClueCell: {x: 27, y: 3}
+    - Rect:
+        x: 24
+        y: 3
+        width: 1
+        height: 1
+      ClueCell: {x: 24, y: 3}
+    - Rect:
+        x: 25
+        y: 4
+        width: 2
+        height: 1
+      ClueCell: {x: 25, y: 4}
+    - Rect:
+        x: 20
+        y: 6
+        width: 4
+        height: 1
+      ClueCell: {x: 22, y: 6}
+    - Rect:
+        x: 24
+        y: 5
+        width: 1
+        height: 2
+      ClueCell: {x: 24, y: 5}
+    - Rect:
+        x: 24
+        y: 7
+        width: 2
+        height: 1
+      ClueCell: {x: 24, y: 7}
+    - Rect:
+        x: 25
+        y: 5
+        width: 2
+        height: 1
+      ClueCell: {x: 25, y: 5}
+    - Rect:
+        x: 25
+        y: 6
+        width: 1
+        height: 1
+      ClueCell: {x: 25, y: 6}
+    - Rect:
+        x: 20
+        y: 7
+        width: 4
+        height: 1
+      ClueCell: {x: 23, y: 7}
+    - Rect:
+        x: 20
+        y: 8
+        width: 6
+        height: 1
+      ClueCell: {x: 25, y: 8}
+    - Rect:
+        x: 20
+        y: 9
+        width: 6
+        height: 1
+      ClueCell: {x: 21, y: 9}
+  - Regions:
+    - Rect:
+        x: 26
+        y: 6
+        width: 1
+        height: 2
+      ClueCell: {x: 26, y: 7}
+    - Rect:
+        x: 27
+        y: 6
+        width: 1
+        height: 3
+      ClueCell: {x: 27, y: 6}
+    - Rect:
+        x: 28
+        y: 6
+        width: 1
+        height: 4
+      ClueCell: {x: 28, y: 8}
+    - Rect:
+        x: 29
+        y: 7
+        width: 1
+        height: 2
+      ClueCell: {x: 29, y: 8}
+    - Rect:
+        x: 29
+        y: 6
+        width: 1
+        height: 1
+      ClueCell: {x: 29, y: 6}
+    - Rect:
+        x: 30
+        y: 7
+        width: 1
+        height: 3
+      ClueCell: {x: 30, y: 7}
+    - Rect:
+        x: 26
+        y: 8
+        width: 1
+        height: 3
+      ClueCell: {x: 26, y: 9}
+    - Rect:
+        x: 27
+        y: 9
+        width: 1
+        height: 1
+      ClueCell: {x: 27, y: 9}
+    - Rect:
+        x: 29
+        y: 9
+        width: 1
+        height: 1
+      ClueCell: {x: 29, y: 9}
+    - Rect:
+        x: 26
+        y: 11
+        width: 1
+        height: 8
+      ClueCell: {x: 26, y: 12}
+    - Rect:
+        x: 27
+        y: 10
+        width: 1
+        height: 8
+      ClueCell: {x: 27, y: 15}
+    - Rect:
+        x: 28
+        y: 11
+        width: 1
+        height: 3
+      ClueCell: {x: 28, y: 12}
+    - Rect:
+        x: 28
+        y: 14
+        width: 1
+        height: 2
+      ClueCell: {x: 28, y: 14}
+    - Rect:
+        x: 29
+        y: 10
+        width: 1
+        height: 2
+      ClueCell: {x: 29, y: 10}
+    - Rect:
+        x: 28
+        y: 10
+        width: 1
+        height: 1
+      ClueCell: {x: 28, y: 10}
+    - Rect:
+        x: 30
+        y: 10
+        width: 1
+        height: 1
+      ClueCell: {x: 30, y: 10}
+    - Rect:
+        x: 30
+        y: 11
+        width: 1
+        height: 1
+      ClueCell: {x: 30, y: 11}
+    - Rect:
+        x: 29
+        y: 12
+        width: 1
+        height: 4
+      ClueCell: {x: 29, y: 13}
+    - Rect:
+        x: 28
+        y: 16
+        width: 1
+        height: 2
+      ClueCell: {x: 28, y: 17}
+    - Rect:
+        x: 27
+        y: 18
+        width: 1
+        height: 1
+      ClueCell: {x: 27, y: 18}
+    - Rect:
+        x: 26
+        y: 19
+        width: 1
+        height: 2
+      ClueCell: {x: 26, y: 20}
+    - Rect:
+        x: 26
+        y: 23
+        width: 2
+        height: 1
+      ClueCell: {x: 26, y: 23}
+    - Rect:
+        x: 26
+        y: 24
+        width: 2
+        height: 1
+      ClueCell: {x: 26, y: 24}
+  - Regions:
+    - Rect:
+        x: 16
+        y: 8
+        width: 1
+        height: 3
+      ClueCell: {x: 16, y: 9}
+    - Rect:
+        x: 17
+        y: 9
+        width: 2
+        height: 1
+      ClueCell: {x: 18, y: 9}
+    - Rect:
+        x: 15
+        y: 9
+        width: 1
+        height: 2
+      ClueCell: {x: 15, y: 10}
+    - Rect:
+        x: 15
+        y: 11
+        width: 2
+        height: 1
+      ClueCell: {x: 15, y: 11}
+    - Rect:
+        x: 15
+        y: 12
+        width: 4
+        height: 1
+      ClueCell: {x: 15, y: 12}
+    - Rect:
+        x: 15
+        y: 13
+        width: 4
+        height: 3
+      ClueCell: {x: 18, y: 15}
+    - Rect:
+        x: 15
+        y: 16
+        width: 2
+        height: 1
+      ClueCell: {x: 16, y: 16}
+    - Rect:
+        x: 19
+        y: 12
+        width: 1
+        height: 5
+      ClueCell: {x: 19, y: 13}
+    - Rect:
+        x: 17
+        y: 10
+        width: 2
+        height: 1
+      ClueCell: {x: 17, y: 10}
+    - Rect:
+        x: 19
+        y: 9
+        width: 1
+        height: 2
+      ClueCell: {x: 19, y: 9}
+    - Rect:
+        x: 17
+        y: 11
+        width: 3
+        height: 1
+      ClueCell: {x: 17, y: 11}
+    - Rect:
+        x: 17
+        y: 16
+        width: 2
+        height: 1
+      ClueCell: {x: 18, y: 16}
+    - Rect:
+        x: 15
+        y: 17
+        width: 2
+        height: 1
+      ClueCell: {x: 16, y: 17}
+    - Rect:
+        x: 17
+        y: 17
+        width: 2
+        height: 1
+      ClueCell: {x: 18, y: 17}
+    - Rect:
+        x: 15
+        y: 18
+        width: 3
+        height: 2
+      ClueCell: {x: 15, y: 19}
+    - Rect:
+        x: 18
+        y: 18
+        width: 2
+        height: 2
+      ClueCell: {x: 19, y: 19}
+  - Regions:
+    - Rect:
+        x: 0
+        y: 9
+        width: 1
+        height: 2
+      ClueCell: {x: 0, y: 9}
+    - Rect:
+        x: 1
+        y: 9
+        width: 1
+        height: 4
+      ClueCell: {x: 1, y: 12}
+    - Rect:
+        x: 2
+        y: 9
+        width: 4
+        height: 2
+      ClueCell: {x: 4, y: 9}
+    - Rect:
+        x: 2
+        y: 11
+        width: 1
+        height: 4
+      ClueCell: {x: 2, y: 11}
+    - Rect:
+        x: 3
+        y: 11
+        width: 1
+        height: 7
+      ClueCell: {x: 3, y: 15}
+    - Rect:
+        x: 4
+        y: 11
+        width: 1
+        height: 8
+      ClueCell: {x: 4, y: 16}
+    - Rect:
+        x: 5
+        y: 11
+        width: 1
+        height: 7
+      ClueCell: {x: 5, y: 13}
+    - Rect:
+        x: 5
+        y: 18
+        width: 1
+        height: 2
+      ClueCell: {x: 5, y: 19}
+    - Rect:
+        x: 0
+        y: 11
+        width: 1
+        height: 1
+      ClueCell: {x: 0, y: 11}
+    - Rect:
+        x: 0
+        y: 12
+        width: 1
+        height: 1
+      ClueCell: {x: 0, y: 12}
+    - Rect:
+        x: 1
+        y: 13
+        width: 1
+        height: 2
+      ClueCell: {x: 1, y: 14}
+    - Rect:
+        x: 2
+        y: 15
+        width: 1
+        height: 3
+      ClueCell: {x: 2, y: 15}
+    - Rect:
+        x: 2
+        y: 18
+        width: 2
+        height: 1
+      ClueCell: {x: 2, y: 18}
+    - Rect:
+        x: 4
+        y: 19
+        width: 1
+        height: 1
+      ClueCell: {x: 4, y: 19}
+  - Regions:
+    - Rect:
+        x: 6
+        y: 10
+        width: 1
+        height: 10
+      ClueCell: {x: 6, y: 16}
+    - Rect:
+        x: 7
+        y: 10
+        width: 2
+        height: 2
+      ClueCell: {x: 7, y: 11}
+    - Rect:
+        x: 8
+        y: 12
+        width: 1
+        height: 2
+      ClueCell: {x: 8, y: 12}
+    - Rect:
+        x: 7
+        y: 15
+        width: 2
+        height: 5
+      ClueCell: {x: 8, y: 15}
+    - Rect:
+        x: 9
+        y: 10
+        width: 1
+        height: 3
+      ClueCell: {x: 9, y: 12}
+    - Rect:
+        x: 9
+        y: 14
+        width: 1
+        height: 4
+      ClueCell: {x: 9, y: 17}
+    - Rect:
+        x: 10
+        y: 10
+        width: 3
+        height: 2
+      ClueCell: {x: 12, y: 10}
+    - Rect:
+        x: 10
+        y: 12
+        width: 3
+        height: 4
+      ClueCell: {x: 11, y: 13}
+    - Rect:
+        x: 10
+        y: 16
+        width: 2
+        height: 1
+      ClueCell: {x: 10, y: 16}
+    - Rect:
+        x: 13
+        y: 10
+        width: 1
+        height: 4
+      ClueCell: {x: 13, y: 12}
+    - Rect:
+        x: 13
+        y: 14
+        width: 1
+        height: 3
+      ClueCell: {x: 13, y: 14}
+    - Rect:
+        x: 14
+        y: 10
+        width: 1
+        height: 3
+      ClueCell: {x: 14, y: 10}
+    - Rect:
+        x: 14
+        y: 13
+        width: 1
+        height: 5
+      ClueCell: {x: 14, y: 15}
+    - Rect:
+        x: 7
+        y: 12
+        width: 1
+        height: 2
+      ClueCell: {x: 7, y: 13}
+    - Rect:
+        x: 7
+        y: 14
+        width: 2
+        height: 1
+      ClueCell: {x: 7, y: 14}
+    - Rect:
+        x: 9
+        y: 13
+        width: 1
+        height: 1
+      ClueCell: {x: 9, y: 13}
+    - Rect:
+        x: 12
+        y: 16
+        width: 1
+        height: 1
+      ClueCell: {x: 12, y: 16}
+    - Rect:
+        x: 10
+        y: 17
+        width: 2
+        height: 1
+      ClueCell: {x: 11, y: 17}
+    - Rect:
+        x: 10
+        y: 18
+        width: 1
+        height: 3
+      ClueCell: {x: 10, y: 18}
+    - Rect:
+        x: 11
+        y: 18
+        width: 1
+        height: 3
+      ClueCell: {x: 11, y: 20}
+    - Rect:
+        x: 12
+        y: 17
+        width: 1
+        height: 4
+      ClueCell: {x: 12, y: 17}
+    - Rect:
+        x: 13
+        y: 18
+        width: 1
+        height: 3
+      ClueCell: {x: 13, y: 20}
+    - Rect:
+        x: 14
+        y: 19
+        width: 1
+        height: 2
+      ClueCell: {x: 14, y: 20}
+    - Rect:
+        x: 6
+        y: 21
+        width: 9
+        height: 1
+      ClueCell: {x: 9, y: 21}
+    - Rect:
+        x: 13
+        y: 17
+        width: 1
+        height: 1
+      ClueCell: {x: 13, y: 17}
+    - Rect:
+        x: 9
+        y: 18
+        width: 1
+        height: 3
+      ClueCell: {x: 9, y: 20}
+    - Rect:
+        x: 14
+        y: 18
+        width: 1
+        height: 1
+      ClueCell: {x: 14, y: 18}
+    - Rect:
+        x: 5
+        y: 20
+        width: 1
+        height: 2
+      ClueCell: {x: 5, y: 20}
+    - Rect:
+        x: 6
+        y: 20
+        width: 2
+        height: 1
+      ClueCell: {x: 7, y: 20}
+    - Rect:
+        x: 8
+        y: 20
+        width: 1
+        height: 1
+      ClueCell: {x: 8, y: 20}
+  - Regions:
+    - Rect:
+        x: 20
+        y: 10
+        width: 6
+        height: 1
+      ClueCell: {x: 20, y: 10}
+    - Rect:
+        x: 20
+        y: 11
+        width: 6
+        height: 1
+      ClueCell: {x: 21, y: 11}
+    - Rect:
+        x: 20
+        y: 12
+        width: 3
+        height: 2
+      ClueCell: {x: 20, y: 13}
+    - Rect:
+        x: 20
+        y: 14
+        width: 2
+        height: 1
+      ClueCell: {x: 21, y: 14}
+    - Rect:
+        x: 20
+        y: 15
+        width: 3
+        height: 1
+      ClueCell: {x: 22, y: 15}
+    - Rect:
+        x: 23
+        y: 12
+        width: 1
+        height: 3
+      ClueCell: {x: 23, y: 12}
+    - Rect:
+        x: 20
+        y: 16
+        width: 2
+        height: 1
+      ClueCell: {x: 20, y: 16}
+    - Rect:
+        x: 22
+        y: 16
+        width: 2
+        height: 1
+      ClueCell: {x: 22, y: 16}
+    - Rect:
+        x: 24
+        y: 12
+        width: 2
+        height: 2
+      ClueCell: {x: 24, y: 13}
+    - Rect:
+        x: 24
+        y: 15
+        width: 2
+        height: 3
+      ClueCell: {x: 24, y: 15}
+    - Rect:
+        x: 22
+        y: 14
+        width: 1
+        height: 1
+      ClueCell: {x: 22, y: 14}
+    - Rect:
+        x: 24
+        y: 14
+        width: 2
+        height: 1
+      ClueCell: {x: 24, y: 14}
+    - Rect:
+        x: 23
+        y: 15
+        width: 1
+        height: 1
+      ClueCell: {x: 23, y: 15}
+    - Rect:
+        x: 19
+        y: 17
+        width: 5
+        height: 1
+      ClueCell: {x: 22, y: 17}
+    - Rect:
+        x: 20
+        y: 18
+        width: 4
+        height: 1
+      ClueCell: {x: 20, y: 18}
+    - Rect:
+        x: 20
+        y: 19
+        width: 2
+        height: 1
+      ClueCell: {x: 20, y: 19}
+    - Rect:
+        x: 22
+        y: 19
+        width: 3
+        height: 1
+      ClueCell: {x: 23, y: 19}
+    - Rect:
+        x: 20
+        y: 20
+        width: 6
+        height: 1
+      ClueCell: {x: 22, y: 20}
+    - Rect:
+        x: 24
+        y: 18
+        width: 2
+        height: 1
+      ClueCell: {x: 24, y: 18}
+    - Rect:
+        x: 25
+        y: 19
+        width: 1
+        height: 1
+      ClueCell: {x: 25, y: 19}
+  - Regions:
+    - Rect:
+        x: 15
+        y: 20
+        width: 1
+        height: 5
+      ClueCell: {x: 15, y: 21}
+    - Rect:
+        x: 16
+        y: 20
+        width: 4
+        height: 1
+      ClueCell: {x: 16, y: 20}
+    - Rect:
+        x: 16
+        y: 21
+        width: 3
+        height: 1
+      ClueCell: {x: 18, y: 21}
+    - Rect:
+        x: 16
+        y: 22
+        width: 4
+        height: 1
+      ClueCell: {x: 16, y: 22}
+    - Rect:
+        x: 16
+        y: 23
+        width: 1
+        height: 2
+      ClueCell: {x: 16, y: 24}
+    - Rect:
+        x: 17
+        y: 24
+        width: 3
+        height: 1
+      ClueCell: {x: 18, y: 24}
+    - Rect:
+        x: 17
+        y: 23
+        width: 4
+        height: 1
+      ClueCell: {x: 19, y: 23}
+  - Regions:
+    - Rect:
+        x: 19
+        y: 21
+        width: 2
+        height: 1
+      ClueCell: {x: 20, y: 21}
+    - Rect:
+        x: 21
+        y: 21
+        width: 2
+        height: 1
+      ClueCell: {x: 22, y: 21}
+    - Rect:
+        x: 23
+        y: 21
+        width: 2
+        height: 2
+      ClueCell: {x: 24, y: 21}
+    - Rect:
+        x: 23
+        y: 23
+        width: 2
+        height: 2
+      ClueCell: {x: 24, y: 24}
+    - Rect:
+        x: 21
+        y: 25
+        width: 4
+        height: 1
+      ClueCell: {x: 21, y: 25}
+    - Rect:
+        x: 26
+        y: 25
+        width: 2
+        height: 1
+      ClueCell: {x: 27, y: 25}
+    - Rect:
+        x: 20
+        y: 26
+        width: 7
+        height: 2
+      ClueCell: {x: 23, y: 27}
+    - Rect:
+        x: 20
+        y: 28
+        width: 2
+        height: 1
+      ClueCell: {x: 20, y: 28}
+    - Rect:
+        x: 24
+        y: 28
+        width: 2
+        height: 1
+      ClueCell: {x: 24, y: 28}
+    - Rect:
+        x: 25
+        y: 21
+        width: 1
+        height: 1
+      ClueCell: {x: 25, y: 21}
+    - Rect:
+        x: 20
+        y: 22
+        width: 2
+        height: 1
+      ClueCell: {x: 20, y: 22}
+    - Rect:
+        x: 20
+        y: 24
+        width: 2
+        height: 1
+      ClueCell: {x: 20, y: 24}
+    - Rect:
+        x: 22
+        y: 22
+        width: 1
+        height: 3
+      ClueCell: {x: 22, y: 22}
+    - Rect:
+        x: 25
+        y: 22
+        width: 1
+        height: 1
+      ClueCell: {x: 25, y: 22}
+    - Rect:
+        x: 21
+        y: 23
+        width: 1
+        height: 1
+      ClueCell: {x: 21, y: 23}
+    - Rect:
+        x: 25
+        y: 23
+        width: 1
+        height: 3
+      ClueCell: {x: 25, y: 25}
+    - Rect:
+        x: 28
+        y: 24
+        width: 1
+        height: 2
+      ClueCell: {x: 28, y: 24}
+    - Rect:
+        x: 19
+        y: 25
+        width: 2
+        height: 1
+      ClueCell: {x: 19, y: 25}
+    - Rect:
+        x: 27
+        y: 26
+        width: 1
+        height: 2
+      ClueCell: {x: 27, y: 27}
+    - Rect:
+        x: 22
+        y: 28
+        width: 2
+        height: 1
+      ClueCell: {x: 23, y: 28}
+    - Rect:
+        x: 26
+        y: 28
+        width: 1
+        height: 4
+      ClueCell: {x: 26, y: 31}
+  - Regions:
+    - Rect:
+        x: 4
+        y: 23
+        width: 2
+        height: 1
+      ClueCell: {x: 4, y: 23}
+    - Rect:
+        x: 6
+        y: 22
+        width: 1
+        height: 2
+      ClueCell: {x: 6, y: 22}
+    - Rect:
+        x: 4
+        y: 24
+        width: 1
+        height: 1
+      ClueCell: {x: 4, y: 24}
+    - Rect:
+        x: 7
+        y: 22
+        width: 1
+        height: 2
+      ClueCell: {x: 7, y: 23}
+    - Rect:
+        x: 8
+        y: 22
+        width: 5
+        height: 3
+      ClueCell: {x: 12, y: 23}
+    - Rect:
+        x: 13
+        y: 22
+        width: 1
+        height: 3
+      ClueCell: {x: 13, y: 22}
+    - Rect:
+        x: 14
+        y: 22
+        width: 1
+        height: 3
+      ClueCell: {x: 14, y: 22}
+    - Rect:
+        x: 9
+        y: 25
+        width: 4
+        height: 2
+      ClueCell: {x: 12, y: 25}
+    - Rect:
+        x: 13
+        y: 25
+        width: 2
+        height: 2
+      ClueCell: {x: 13, y: 26}
+    - Rect:
+        x: 10
+        y: 27
+        width: 3
+        height: 2
+      ClueCell: {x: 12, y: 28}
+    - Rect:
+        x: 13
+        y: 27
+        width: 2
+        height: 1
+      ClueCell: {x: 13, y: 27}
+    - Rect:
+        x: 5
+        y: 24
+        width: 2
+        height: 1
+      ClueCell: {x: 6, y: 24}
+    - Rect:
+        x: 6
+        y: 25
+        width: 2
+        height: 1
+      ClueCell: {x: 6, y: 25}
+    - Rect:
+        x: 6
+        y: 26
+        width: 2
+        height: 1
+      ClueCell: {x: 7, y: 26}
+    - Rect:
+        x: 6
+        y: 27
+        width: 2
+        height: 1
+      ClueCell: {x: 6, y: 27}
+    - Rect:
+        x: 6
+        y: 28
+        width: 2
+        height: 1
+      ClueCell: {x: 6, y: 28}
+    - Rect:
+        x: 8
+        y: 27
+        width: 1
+        height: 2
+      ClueCell: {x: 8, y: 27}
+    - Rect:
+        x: 7
+        y: 24
+        width: 1
+        height: 1
+      ClueCell: {x: 7, y: 24}
+    - Rect:
+        x: 5
+        y: 25
+        width: 1
+        height: 2
+      ClueCell: {x: 5, y: 25}
+    - Rect:
+        x: 8
+        y: 25
+        width: 1
+        height: 2
+      ClueCell: {x: 8, y: 25}
+    - Rect:
+        x: 5
+        y: 27
+        width: 1
+        height: 1
+      ClueCell: {x: 5, y: 27}
+    - Rect:
+        x: 9
+        y: 27
+        width: 1
+        height: 2
+      ClueCell: {x: 9, y: 27}
+    - Rect:
+        x: 5
+        y: 28
+        width: 1
+        height: 1
+      ClueCell: {x: 5, y: 28}
+    - Rect:
+        x: 13
+        y: 28
+        width: 2
+        height: 1
+      ClueCell: {x: 14, y: 28}
+  - Regions:
+    - Rect:
+        x: 15
+        y: 25
+        width: 1
+        height: 4
+      ClueCell: {x: 15, y: 25}
+    - Rect:
+        x: 15
+        y: 30
+        width: 1
+        height: 2
+      ClueCell: {x: 15, y: 30}
+    - Rect:
+        x: 15
+        y: 32
+        width: 1
+        height: 3
+      ClueCell: {x: 15, y: 32}
+    - Rect:
+        x: 16
+        y: 25
+        width: 2
+        height: 4
+      ClueCell: {x: 16, y: 28}
+    - Rect:
+        x: 16
+        y: 29
+        width: 2
+        height: 6
+      ClueCell: {x: 16, y: 33}
+    - Rect:
+        x: 18
+        y: 25
+        width: 1
+        height: 10
+      ClueCell: {x: 18, y: 26}
+    - Rect:
+        x: 19
+        y: 26
+        width: 1
+        height: 5
+      ClueCell: {x: 19, y: 27}
+    - Rect:
+        x: 19
+        y: 31
+        width: 1
+        height: 4
+      ClueCell: {x: 19, y: 33}
+    - Rect:
+        x: 15
+        y: 35
+        width: 5
+        height: 1
+      ClueCell: {x: 17, y: 35}
+  - Regions:
+    - Rect:
+        x: 6
+        y: 29
+        width: 1
+        height: 1
+      ClueCell: {x: 6, y: 29}
+    - Rect:
+        x: 7
+        y: 29
+        width: 6
+        height: 1
+      ClueCell: {x: 10, y: 29}
+    - Rect:
+        x: 7
+        y: 30
+        width: 2
+        height: 2
+      ClueCell: {x: 8, y: 31}
+    - Rect:
+        x: 9
+        y: 30
+        width: 1
+        height: 3
+      ClueCell: {x: 9, y: 32}
+    - Rect:
+        x: 10
+        y: 30
+        width: 5
+        height: 3
+      ClueCell: {x: 13, y: 30}
+    - Rect:
+        x: 10
+        y: 33
+        width: 3
+        height: 1
+      ClueCell: {x: 12, y: 33}
+    - Rect:
+        x: 13
+        y: 33
+        width: 2
+        height: 1
+      ClueCell: {x: 13, y: 33}
+    - Rect:
+        x: 11
+        y: 34
+        width: 4
+        height: 1
+      ClueCell: {x: 14, y: 34}
+    - Rect:
+        x: 13
+        y: 29
+        width: 3
+        height: 1
+      ClueCell: {x: 15, y: 29}
+    - Rect:
+        x: 6
+        y: 30
+        width: 1
+        height: 1
+      ClueCell: {x: 6, y: 30}
+    - Rect:
+        x: 6
+        y: 31
+        width: 1
+        height: 1
+      ClueCell: {x: 6, y: 31}
+    - Rect:
+        x: 7
+        y: 32
+        width: 2
+        height: 1
+      ClueCell: {x: 7, y: 32}
+    - Rect:
+        x: 9
+        y: 33
+        width: 1
+        height: 1
+      ClueCell: {x: 9, y: 33}
+    - Rect:
+        x: 10
+        y: 34
+        width: 1
+        height: 1
+      ClueCell: {x: 10, y: 34}
+    - Rect:
+        x: 11
+        y: 35
+        width: 4
+        height: 1
+      ClueCell: {x: 12, y: 35}
+  - Regions:
+    - Rect:
+        x: 20
+        y: 29
+        width: 1
+        height: 5
+      ClueCell: {x: 20, y: 32}
+    - Rect:
+        x: 21
+        y: 30
+        width: 1
+        height: 4
+      ClueCell: {x: 21, y: 33}
+    - Rect:
+        x: 22
+        y: 30
+        width: 1
+        height: 4
+      ClueCell: {x: 22, y: 31}
+    - Rect:
+        x: 23
+        y: 30
+        width: 1
+        height: 3
+      ClueCell: {x: 23, y: 31}
+    - Rect:
+        x: 24
+        y: 29
+        width: 2
+        height: 3
+      ClueCell: {x: 25, y: 29}
+    - Rect:
+        x: 20
+        y: 34
+        width: 2
+        height: 1
+      ClueCell: {x: 20, y: 34}
+    - Rect:
+        x: 21
+        y: 29
+        width: 3
+        height: 1
+      ClueCell: {x: 21, y: 29}
+    - Rect:
+        x: 24
+        y: 32
+        width: 2
+        height: 1
+      ClueCell: {x: 24, y: 32}
+    - Rect:
+        x: 22
+        y: 34
+        width: 1
+        height: 1
+      ClueCell: {x: 22, y: 34}
+    - Rect:
+        x: 23
+        y: 33
+        width: 1
+        height: 2
+      ClueCell: {x: 23, y: 33}
+    - Rect:
+        x: 20
+        y: 35
+        width: 1
+        height: 1
+      ClueCell: {x: 20, y: 35}
+    - Rect:
+        x: 21
+        y: 35
+        width: 1
+        height: 1
+      ClueCell: {x: 21, y: 35}
