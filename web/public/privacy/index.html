@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#F7F4ED" />
+    <meta name="robots" content="noindex" />
+    <title>Shidaku prototype - privacy</title>
+    <style>
+      body {
+        margin: 0 auto;
+        max-width: 640px;
+        padding: 32px 20px calc(40px + env(safe-area-inset-bottom, 0px));
+        background: #f7f4ed;
+        color: #5a4636;
+        font-family: ui-rounded, 'Segoe UI Rounded', system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+      }
+      h1 { font-size: 26px; margin-bottom: 4px; }
+      h2 { font-size: 17px; margin-top: 26px; }
+      code { background: rgba(90, 70, 54, 0.08); padding: 1px 5px; border-radius: 5px; font-size: 13px; }
+      .muted { color: rgba(90, 70, 54, 0.62); font-size: 14px; }
+      a { color: inherit; }
+    </style>
+  </head>
+  <body>
+    <h1>Privacy</h1>
+    <p class="muted">Shidaku prototype. Last updated: 2026-09-09.</p>
+
+    <p>
+      This is a playable prototype used to find out whether a game idea is worth building. It
+      is not a released product and it has no user accounts.
+    </p>
+
+    <h2>What is collected</h2>
+    <p>
+      Anonymous gameplay events only: that a page was opened, that the game loaded and drew,
+      that a rectangle was drawn correctly or not, which section was reached, whether a hint
+      was used, how long a session lasted, and whether the "Get the full game" button was
+      shown or tapped. Alongside those we record technical context - a random session
+      identifier generated in your browser, approximate device class, connection type, screen
+      size, and the campaign parameters in the link you arrived from.
+    </p>
+    <p>
+      We do not ask for or store your name, your account, your location, your contacts, or any
+      advertising identifier. The random session identifier is not linked to you and is not
+      kept after the browser session ends.
+    </p>
+
+    <h2>Session recordings</h2>
+    <p>
+      Some sessions are recorded as anonymised screen interactions (taps and movement on the
+      game screen) so we can see where the game confuses people. Recordings contain no typed
+      text and no personal data.
+    </p>
+
+    <h2>If you give us an email address</h2>
+    <p>
+      Only if you type it into the form on the "in development" page. It is used for exactly
+      one thing: telling you once when Shidaku is available. It is not used for any other
+      mail, and it is not sold or shared. Ask us to delete it at any time and we will.
+    </p>
+
+    <h2>Who processes this data</h2>
+    <ul>
+      <li><strong>PostHog</strong> - gameplay analytics.</li>
+      <li><strong>Microsoft Clarity</strong> - anonymised session recordings and heatmaps.</li>
+      <li><strong>Meta Pixel</strong> - tells the advertising campaign that a visitor loaded
+        the game, made a first move, and finished the first and third sections. No personal
+        data is sent.</li>
+    </ul>
+
+    <h2>Storage on your device</h2>
+    <p>
+      Two values, both optional: your sound on/off preference (<code>localStorage</code>) and
+      the random session identifier (<code>sessionStorage</code>, discarded when you close the
+      tab). No game progress is saved - reloading starts a fresh session.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions, or a deletion request: <a href="mailto:hello@example.com">hello@example.com</a>.
+    </p>
+
+    <p class="muted"><a href="../">Back to the game</a></p>
+  </body>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#F7F4ED" />
+    <meta name="robots" content="noindex" />
+    <title>Shidaku - in development</title>
+    <style>
+      :root {
+        --bg: #f7f4ed;
+        --ink: #5a4636;
+        --ink-soft: rgba(90, 70, 54, 0.62);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: ui-rounded, 'Segoe UI Rounded', system-ui, -apple-system, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 28px 20px calc(28px + env(safe-area-inset-bottom, 0px));
+      }
+      main { max-width: 420px; width: 100%; }
+      .banner {
+        background: #fffdf8;
+        border: 2px solid rgba(90, 70, 54, 0.14);
+        border-radius: 16px;
+        padding: 14px 16px;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 1.35;
+      }
+      h1 { font-size: 26px; margin: 22px 0 8px; }
+      p { line-height: 1.55; margin: 0 0 14px; }
+      .muted { color: var(--ink-soft); font-size: 14px; }
+      .art {
+        display: grid;
+        grid-template-columns: repeat(14, 1fr);
+        gap: 2px;
+        margin: 20px 0 24px;
+      }
+      .art i { aspect-ratio: 1; border-radius: 22%; }
+      form { display: flex; gap: 8px; margin: 18px 0 10px; }
+      input[type='email'] {
+        flex: 1;
+        min-width: 0;
+        padding: 14px;
+        border: 2px solid rgba(90, 70, 54, 0.18);
+        border-radius: 14px;
+        background: #fffdf8;
+        font: inherit;
+        color: var(--ink);
+      }
+      button {
+        padding: 14px 18px;
+        border: 0;
+        border-radius: 14px;
+        background: var(--ink);
+        color: #fff8f0;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      footer { margin-top: 26px; font-size: 13px; color: var(--ink-soft); }
+      footer a { color: inherit; }
+      #thanks { display: none; font-weight: 700; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <!--
+        THE FIRST THING ON THE PAGE SAYS THE GAME DOES NOT EXIST YET.
+        This is not decoration and not negotiable. The button that leads here is an intent
+        probe: it measures whether someone who has actually played the mechanic wants the
+        game. That is only honest if nobody arrives here thinking they are about to download
+        something. There is deliberately no store badge, no fake rating and no download count.
+      -->
+      <div class="banner">Shidaku is in development - not released yet.</div>
+
+      <h1>Want to know when it's out?</h1>
+      <p>
+        You just played an early prototype. We're still building it, and we're using tests like
+        this one to work out whether the idea is worth finishing.
+      </p>
+
+      <!-- The finished picture from the prototype, drawn with divs. No image request. -->
+      <div class="art" id="art" aria-hidden="true"></div>
+
+      <form id="notify" novalidate>
+        <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required />
+        <button type="submit">Notify me</button>
+      </form>
+      <p class="muted" id="privacy-note">
+        We'll use your address for one thing only: telling you when Shidaku is available. No
+        other mail, and you can ask us to delete it at any time -
+        <a href="mailto:hello@example.com">hello@example.com</a>.
+      </p>
+      <p id="thanks">Thanks - we'll let you know.</p>
+
+      <footer>
+        <a href="../privacy/">Privacy</a> &middot; A prototype by Titipi Games
+      </footer>
+    </main>
+
+    <script>
+      // Redraw the mushroom from the same rows the game's artwork uses.
+      (function () {
+        var rows = [
+          '....RRRRRR....', '..RRRRRRRRRR..', '.RRRRRRRRRRRR.', 'RRRRRRRRRRRRRR',
+          'RRWWRRRRRRWWRR', 'RRWWRRRRRRWWRR', 'RRRRRRRRRRRRRR', '.RRRRRRRRRRRR.',
+          '..CCCCCCCCCC..', '..CCCCCCCCCC..', '...CCCCCCCC...', '...CCCCCCCC...',
+          '...CCCCCCCC...', '...CCCCCCCC...', '.GGGGGGGGGGGG.', '.GGGGGGGGGGGG.'
+        ];
+        var colors = { R: '#E2574C', W: '#F6D28A', C: '#E7C89A', G: '#7FB77E' };
+        var art = document.getElementById('art');
+        var html = '';
+        for (var y = 0; y < rows.length; y++) {
+          for (var x = 0; x < rows[y].length; x++) {
+            var ch = rows[y][x];
+            html += '<i style="background:' + (colors[ch] || 'transparent') + '"></i>';
+          }
+        }
+        art.innerHTML = html;
+      })();
+
+      // The session id arrives as ?sid= so an intent click can be joined back to the session
+      // that produced it. It is a random per-session value, not an identity.
+      (function () {
+        var params = new URLSearchParams(location.search);
+        var form = document.getElementById('notify');
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var email = document.getElementById('email').value.trim();
+          if (!email || email.indexOf('@') < 1) return;
+
+          // TODO(before running a paid test): point this at the agreed collector
+          // (Cloudflare Worker + KV, Formspree, or a Google Form). Until then the submission
+          // is acknowledged locally so the flow can be walked end to end - the fake-install
+          // CLICK is already recorded by the game itself, which is the metric that ranks
+          // ideas; the address is a bonus.
+          try {
+            console.info('[soon] captured', { email: email, sid: params.get('sid'), idea: params.get('idea_id') });
+          } catch (err) {}
+
+          form.style.display = 'none';
+          document.getElementById('privacy-note').style.display = 'none';
+          document.getElementById('thanks').style.display = 'block';
+        });
+      })();
+    </script>
+  </body>
+</html>

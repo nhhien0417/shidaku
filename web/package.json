@@ -1,0 +1,29 @@
+{
+  "name": "shidaku-web-prototype",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Shidaku (Pixel Fill Shikaku) web prototype - a measuring instrument for idea validation, not a game port.",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run typecheck && npm run check:events && vite build && npm run check:budget",
+    "build:internal": "node scripts/build-internal.mjs",
+    "preview": "vite preview --port 4173",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "format": "prettier --write \"src/**/*.{ts,css}\" \"tests/**/*.ts\"",
+    "check:budget": "node scripts/check-budget.mjs",
+    "check:events": "node scripts/check-events.mjs",
+    "content:safe": "node scripts/author-safe-content.mjs",
+    "content:internal": "node scripts/parse-unity-yaml.mjs",
+    "font:subset": "python scripts/subset-font.py"
+  },
+  "devDependencies": {
+    "@types/node": "^26.5.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8"
+  }
+}

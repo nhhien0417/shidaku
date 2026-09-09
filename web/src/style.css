@@ -1,0 +1,372 @@
+/**
+ * HUD styling. Every colour here is neutral by policy: the only saturated colour allowed on
+ * screen is the picture's own, so buttons are white, text is warm brown, and the page is
+ * cream rather than white.
+ */
+
+:root {
+  --bg: #f7f4ed;
+  --ink: #5a4636;
+  --ink-soft: rgba(90, 70, 54, 0.62);
+  --btn: rgba(255, 255, 255, 0.9);
+  --btn-shadow: 0 2px 10px rgba(90, 70, 54, 0.14);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/**
+ * The UA stylesheet's [hidden] rule is a bare attribute selector, so any id-based
+ * `display: flex` below beats it and every overlay renders at once. This puts the attribute
+ * back in charge - the overlays are toggled by `hidden`, so without it nothing works.
+ */
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Baloo', ui-rounded, 'Segoe UI Rounded', system-ui, -apple-system, sans-serif;
+  /* Locking the body is what stops a drag from scrolling the page or triggering
+     pull-to-refresh inside the Facebook in-app browser. */
+  position: fixed;
+  inset: 0;
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+#board {
+  position: absolute;
+  inset: 0;
+  display: block;
+  /* The drag is ours. Without this the browser claims the gesture for scrolling. */
+  touch-action: none;
+}
+
+#hud {
+  position: absolute;
+  inset: 0;
+  /* Transparent to pointers: a drag that begins over the HUD's empty space still reaches the
+     board. Only the controls opt back in. */
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+}
+
+#hud button,
+#hud a {
+  pointer-events: auto;
+  font-family: inherit;
+}
+
+/* ---------------------------------------------------------------- top bar */
+
+#topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--safe-top) + 10px) 14px 0;
+  height: calc(var(--safe-top) + 52px);
+}
+
+#level-label {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--btn);
+  box-shadow: var(--btn-shadow);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.icon-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ---------------------------------------------------------------- tutorial */
+
+#tutorial-banner {
+  margin: 6px 20px 0;
+  text-align: center;
+}
+
+#tutorial-text {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+#tutorial-note {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.25;
+}
+
+#tutorial-dots {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+#tutorial-dots i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(90, 70, 54, 0.2);
+  transition: background 0.2s ease;
+}
+
+#tutorial-dots i.on {
+  background: var(--ink);
+}
+
+/* ---------------------------------------------------------------- progress + tap hint */
+
+#progress,
+#tap-hint {
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#progress {
+  margin-top: auto;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  padding-bottom: 6px;
+  /* The board is deliberately unmasked, so cells can sit directly behind this text. A paper
+     halo keeps it readable over them without adding a panel that would box the picture in. */
+  text-shadow:
+    0 0 6px var(--bg),
+    0 0 3px var(--bg);
+}
+
+#tap-hint {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  padding-bottom: 10px;
+  text-shadow:
+    0 0 6px var(--bg),
+    0 0 3px var(--bg);
+}
+
+#progress.show,
+#tap-hint.show {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------- bottom bar */
+
+#bottombar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px calc(var(--safe-bottom) + 22px);
+  height: calc(var(--safe-bottom) + 106px);
+}
+
+.round-btn {
+  min-width: 62px;
+  height: 62px;
+  border: 0;
+  border-radius: 20px;
+  background: var(--btn);
+  box-shadow: var(--btn-shadow);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.round-btn:disabled {
+  opacity: 0.55;
+}
+
+.round-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+#minimap {
+  width: 40px;
+  height: 40px;
+  /* One canvas pixel per board cell, scaled up - it must stay crisp, not blur. */
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+/* ---------------------------------------------------------------- install banner */
+
+#install-banner {
+  pointer-events: auto;
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(var(--safe-bottom) + 118px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 20px rgba(90, 70, 54, 0.16);
+  transform: translateY(18px);
+  opacity: 0;
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+#install-banner.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+#install-banner-text {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#install-banner-cta,
+#win-install,
+.primary-link {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: var(--ink);
+  color: #fff8f0;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+#install-banner-close {
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 22px;
+  line-height: 1;
+  padding: 0 4px;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------- overlays */
+
+#win-overlay,
+#end-overlay,
+#boot-error {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  /* Barely tinted: the finished picture stays the subject of this moment. */
+  background: rgba(247, 244, 237, 0.35);
+  padding: 0 20px calc(var(--safe-bottom) + 34px);
+}
+
+#win-card {
+  text-align: center;
+  max-width: 340px;
+}
+
+#win-card h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--ink);
+  text-shadow: 0 2px 0 rgba(247, 244, 237, 0.9);
+}
+
+#win-card p {
+  margin: 4px 0 18px;
+  font-size: 15px;
+  color: var(--ink);
+  text-shadow: 0 1px 0 rgba(247, 244, 237, 0.9);
+}
+
+#next-btn {
+  display: block;
+  width: 100%;
+  padding: 16px 24px;
+  border: 0;
+  border-radius: 18px;
+  background: #fffdf8;
+  box-shadow: 0 4px 14px rgba(90, 70, 54, 0.2);
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Secondary by design: the intent probe must not compete with continuing to play, or the
+   click-through rate stops meaning "I want this" and starts meaning "I misread the button". */
+#win-install {
+  margin-top: 12px;
+  background: transparent;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  font-size: 13px;
+  padding: 8px;
+}
+
+#end-overlay,
+#boot-error {
+  align-items: center;
+}
+
+/* ---------------------------------------------------------------- debug overlay */
+
+#debug {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--safe-top) + 56px);
+  margin: 0 8px;
+  max-height: 42vh;
+  overflow: auto;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(20, 18, 16, 0.86);
+  color: #d9f2c4;
+  font: 10px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
+  white-space: pre-wrap;
+  pointer-events: none;
+  z-index: 10;
+}

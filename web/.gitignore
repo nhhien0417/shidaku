@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.vite/
+*.local
+.DS_Store
+
+# Font subsetting scratch. src/font.css is the committed output.
+scripts/.cache/
+
+# The internal content set: JSON derived from the four Unity demo templates, which are
+# cross-stitch charts from outside sources containing third-party copyrighted characters.
+# Regenerate locally with `npm run content:internal` when you need to test the pipeline
+# against real Unity-authored puzzles. It has no business being in the repository.
+public/puzzles/u*.json
