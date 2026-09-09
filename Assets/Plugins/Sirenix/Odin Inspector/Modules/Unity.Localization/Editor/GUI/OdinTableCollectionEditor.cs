@@ -176,7 +176,7 @@ namespace Sirenix.OdinInspector.Modules.Localization.Editor
 			this.EntryScrollView = new OdinGUIScrollView(this.SharedEntries.Length + 64, adjustViewForVerticalScrollBar: false);
 
 			this.RelatedWindow = relatedWindow;
-			this.RelatedWindowId = this.RelatedWindow.GetHashCode();
+			this.RelatedWindowId = this.RelatedWindow.GetInstanceID();
 			this.keyToRemove = null;
 			this.isForceDeleteKey = false;
 

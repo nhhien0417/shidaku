@@ -985,9 +985,9 @@ namespace Sirenix.OdinInspector.Modules.Addressables.Editor
                     searchFilter += $"t:{filterType.Name} ";
                 }
 
-                string[] enumeratedGuids = AssetDatabase.FindAssets(searchFilter, new[] { "Assets" });
+                IEnumerator<HierarchyProperty> enumerator = AssetDatabase_Internals.EnumerateAllAssets(searchFilter, false, AssetDatabaseSearchArea.InAssetsOnly);
 
-                if (enumeratedGuids.Length > 0)
+                if (enumerator.MoveNext())
                 {
                     var addedGuids = new HashSet<string>();
 
@@ -1005,37 +1005,28 @@ namespace Sirenix.OdinInspector.Modules.Addressables.Editor
 
                     tree.MenuItems.Add(nonAddressablesItem);
 
-                    foreach (string currentGuid in enumeratedGuids)
+                    do
                     {
-                        if (addedGuids.Contains(currentGuid))
+                        HierarchyProperty current = enumerator.Current;
+
+                        if (addedGuids.Contains(current.guid) || !current.isMainRepresentation)
                         {
                             continue;
                         }
 
-                        string currentPath = AssetDatabase.GUIDToAssetPath(currentGuid);
-
-                        if (string.IsNullOrEmpty(currentPath))
-                        {
-                            continue;
-                        }
-
-                        bool currentIsFolder = AssetDatabase.IsValidFolder(currentPath);
-                        Texture2D currentIcon = AssetDatabase.GetCachedIcon(currentPath) as Texture2D;
-                        string currentName = System.IO.Path.GetFileNameWithoutExtension(currentPath);
-
-                        AddressableAssetEntry entry = OdinAddressableUtility.CreateFakeAddressableAssetEntry(currentGuid);
+                        AddressableAssetEntry entry = OdinAddressableUtility.CreateFakeAddressableAssetEntry(current.guid);
 
                         if (listMode == SelectorListMode.Flat)
                         {
-                            var item = new OdinMenuItem(tree, currentName, entry) {Icon = currentIcon};
+                            var item = new OdinMenuItem(tree, current.name, entry) {Icon = current.icon};
 
                             nonAddressablesItem.ChildMenuItems.Add(item);
                         }
                         else
                         {
-                            string path = currentPath;
+                            string path = AssetDatabase.GetAssetPath(current.instanceID);
 
-                            if (!currentIsFolder)
+                            if (!current.isFolder)
                             {
                                 int extensionEndingIndex = GetExtensionsEndingIndex(path);
 
@@ -1047,9 +1038,9 @@ namespace Sirenix.OdinInspector.Modules.Addressables.Editor
 
                             path = RemoveBaseDirectoryFromAssetPath(path);
 
-                            tree.Add($"{NON_ADDRESSABLES_ITEM_NAME}/{path}", entry, currentIcon);
+                            tree.Add($"{NON_ADDRESSABLES_ITEM_NAME}/{path}", entry, current.icon);
                         }
-                    }
+                    } while (enumerator.MoveNext());
 
                     nonAddressablesItem.ChildMenuItems.SortMenuItemsByName();
                 }

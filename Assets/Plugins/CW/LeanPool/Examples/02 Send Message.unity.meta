@@ -6,10 +6,3 @@ DefaultImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 35666
-  packageName: Lean Pool
-  packageVersion: 2.1.0
-  assetPath: Assets/Plugins/CW/LeanPool/Examples/02 Send Message.unity
-  uploadId: 653650

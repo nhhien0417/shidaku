@@ -7,10 +7,3 @@ NativeFormatImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 35666
-  packageName: Lean Pool
-  packageVersion: 2.1.0
-  assetPath: Assets/Plugins/CW/Shared/Common/Examples/Materials/Grid.mat
-  uploadId: 653650

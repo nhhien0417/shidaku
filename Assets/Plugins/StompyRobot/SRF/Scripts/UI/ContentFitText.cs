@@ -90,16 +90,6 @@
             get { return 0; }
         }
 
-        public float maxWidth
-        {
-            get { return -1f; }
-        }
-
-        public float maxHeight
-        {
-            get { return -1f; }
-        }
-
         public void CalculateLayoutInputHorizontal()
         {
             CopySource.CalculateLayoutInputHorizontal();

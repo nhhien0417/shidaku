@@ -316,7 +316,7 @@ namespace SRF.UI.Layout
 
         public override void CalculateLayoutInputVertical()
         {
-            SetLayoutInputForAxis(minHeight, -1, minHeight, -1, 1);
+            SetLayoutInputForAxis(minHeight, minHeight, -1, 1);
         }
 
         public override void SetLayoutHorizontal()

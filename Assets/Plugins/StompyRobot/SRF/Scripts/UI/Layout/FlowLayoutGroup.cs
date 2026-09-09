@@ -64,7 +64,7 @@
 
             var minWidth = GetGreatestMinimumChildWidth() + padding.left + padding.right;
 
-            SetLayoutInputForAxis(minWidth, -1, -1, -1, 0);
+            SetLayoutInputForAxis(minWidth, -1, -1, 0);
         }
 
         public override void SetLayoutHorizontal()
@@ -173,7 +173,7 @@
             {
                 if (axis == 1)
                 {
-                    SetLayoutInputForAxis(yOffset, -1, yOffset, -1, axis);
+                    SetLayoutInputForAxis(yOffset, yOffset, -1, axis);
                 }
             }
 

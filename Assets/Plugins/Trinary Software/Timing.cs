@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Assertions;
+#if UNITY_5_5_OR_NEWER
 using UnityEngine.Profiling;
+#endif
 
 // /////////////////////////////////////////////////////////////////////////////////////////
 //                              More Effective Coroutines
-//                                        v3.17.0
+//                                        v3.10.2
 // 
 // This is an improved implementation of coroutines that boasts zero per-frame memory allocations,
 // runs about twice as fast as Unity's built in coroutines and has a range of extra features.
 // 
 // This is the free version. MEC also has a pro version, which can be found here:
-// https://assetstore.unity.com/packages/slug/54975
+// https://www.assetstore.unity3d.com/en/#!/content/68480
 // The pro version contains exactly the same core that the free version uses, but also
 // contains many additional features. Every function that exists in MEC Free also exists in MEC Pro,
 // so you can upgrade at any time without breaking existing code.
@@ -19,7 +21,7 @@ using UnityEngine.Profiling;
 // For manual, support, or upgrade guide visit http://trinary.tech/
 //
 // Created by Teal Rogers
-// Digital Dust
+// Trinary Software
 // All rights preserved
 // /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -33,7 +35,7 @@ namespace MEC
         [Tooltip("How quickly the SlowUpdate segment ticks.")]
         public float TimeBetweenSlowUpdateCalls = 1f / 7f;
         /// <summary>
-        /// The amount that each coroutine should be separated inside the Unity profiler. NOTE: When the profiler window
+        /// The amount that each coroutine should be seperated inside the Unity profiler. NOTE: When the profiler window
         /// is not open this value is ignored and all coroutines behave as if "None" is selected.
         /// </summary>
         [Tooltip("How much data should be sent to the profiler window when it's open.")]
@@ -137,9 +139,6 @@ namespace MEC
 
         private readonly Dictionary<CoroutineHandle, HashSet<CoroutineHandle>> _waitingTriggers = new Dictionary<CoroutineHandle, HashSet<CoroutineHandle>>();
         private readonly HashSet<CoroutineHandle> _allWaiting = new HashSet<CoroutineHandle>();
-        private readonly Dictionary<CoroutineHandle, HashSet<CoroutineHandle>> _pendingResume = new Dictionary<CoroutineHandle, HashSet<CoroutineHandle>>();
-        private int[] _resumeBuffer = new int[InitialBufferSizeSmall];
-        private int _resumeCount;
         private readonly Dictionary<CoroutineHandle, ProcessIndex> _handleToIndex = new Dictionary<CoroutineHandle, ProcessIndex>();
         private readonly Dictionary<ProcessIndex, CoroutineHandle> _indexToHandle = new Dictionary<ProcessIndex, CoroutineHandle>();
         private readonly Dictionary<CoroutineHandle, string> _processTags = new Dictionary<CoroutineHandle, string>();
@@ -164,7 +163,6 @@ namespace MEC
         private const int InitialBufferSizeLarge = 256;
         private const int InitialBufferSizeMedium = 64;
         private const int InitialBufferSizeSmall = 8;
-        private const float ASmallNumber = 0.00048828125f;
 
         private static Timing[] ActiveInstances = new Timing[16];
         private static Timing _instance;
@@ -173,26 +171,15 @@ namespace MEC
         {
             get
             {
-                if (_instance == null || !_instance.gameObject || !_instance.gameObject.scene.IsValid())
+                if (_instance == null || !_instance.gameObject)
                 {
                     GameObject instanceHome = GameObject.Find("Timing Controller");
-
-                    if (instanceHome != null && !instanceHome.scene.IsValid())
-                    {
-                        instanceHome.name = "Timing Controller (orphaned)";
-                        if (Application.isPlaying)
-                            UnityEngine.Object.Destroy(instanceHome);
-                        else
-                            UnityEngine.Object.DestroyImmediate(instanceHome);
-                        instanceHome = null;
-                    }
 
                     if (instanceHome == null)
                     {
                         instanceHome = new GameObject { name = "Timing Controller" };
 
-                        if (Application.isPlaying) DontDestroyOnLoad(instanceHome);
-                        else instanceHome.hideFlags = HideFlags.DontSave;
+                        DontDestroyOnLoad(instanceHome);
                     }
 
                     _instance = instanceHome.GetComponent<Timing>() ?? instanceHome.AddComponent<Timing>();
@@ -268,9 +255,9 @@ namespace MEC
                         {
                             currentCoroutine = _indexToHandle[coindex];
 
-                            if (ProfilerDebugAmount != DebugInfoType.None)
+                            if (ProfilerDebugAmount != DebugInfoType.None && _indexToHandle.ContainsKey(coindex))
                             {
-                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeparateTags ? ("Processing Coroutine (Slow Update)" +
+                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags ? ("Processing Coroutine (Slow Update)" +
                                         (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
                                         : "Processing Coroutine (Slow Update)");
                             }
@@ -278,35 +265,7 @@ namespace MEC
                             if (!SlowUpdateProcesses[coindex.i].MoveNext())
                             {
                                 if (_indexToHandle.ContainsKey(coindex))
-                                {
-                                    CoroutineHandle finishedHandle = _indexToHandle[coindex];
-                                    KillCoroutinesOnInstance(finishedHandle);
-
-                                    if (_pendingResume.ContainsKey(finishedHandle))
-                                    {
-                                        var waiters = _pendingResume[finishedHandle];
-                                        var waiterEnum = waiters.GetEnumerator();
-                                        while (waiterEnum.MoveNext())
-                                        {
-                                            if (_handleToIndex.ContainsKey(waiterEnum.Current))
-                                            {
-                                                ProcessIndex waiterIndex = _handleToIndex[waiterEnum.Current];
-                                                if (waiterIndex.seg == Segment.SlowUpdate && waiterIndex.i < coindex.i)
-                                                {
-                                                    if (_resumeCount == _resumeBuffer.Length)
-                                                    {
-                                                        int[] newBuffer = new int[_resumeBuffer.Length * 2];
-                                                        for (int j = 0; j < _resumeBuffer.Length; j++)
-                                                            newBuffer[j] = _resumeBuffer[j];
-                                                        _resumeBuffer = newBuffer;
-                                                    }
-                                                    _resumeBuffer[_resumeCount++] = waiterIndex.i;
-                                                }
-                                            }
-                                        }
-                                        _pendingResume.Remove(finishedHandle);
-                                    }
-                                }
+                                    KillCoroutinesOnInstance(_indexToHandle[coindex]);
                             }
                             else if (SlowUpdateProcesses[coindex.i] != null && float.IsNaN(SlowUpdateProcesses[coindex.i].Current))
                             {
@@ -316,80 +275,6 @@ namespace MEC
                                     ReplacementFunction = null;
                                 }
                                 coindex.i--;
-                            }
-
-                            if (ProfilerDebugAmount != DebugInfoType.None)
-                                Profiler.EndSample();
-                        }
-                    }
-                    catch (System.Exception ex)
-                    {
-                        Debug.LogException(ex);
-
-                        if (ex is MissingReferenceException)
-                            Debug.LogError("This exception can probably be fixed by adding \"CancelWith(gameObject)\" when you run the coroutine.\n"
-                                + "Example: Timing.RunCoroutine(_foo().CancelWith(gameObject), Segment.SlowUpdate);");
-                    }
-                }
-
-                while (_resumeCount > 0)
-                {
-                    coindex.i = _resumeBuffer[--_resumeCount];
-
-                    try
-                    {
-                        if (!SlowUpdatePaused[coindex.i] && !SlowUpdateHeld[coindex.i] && SlowUpdateProcesses[coindex.i] != null && !(localTime < SlowUpdateProcesses[coindex.i].Current))
-                        {
-                            currentCoroutine = _indexToHandle[coindex];
-
-                            if (ProfilerDebugAmount != DebugInfoType.None)
-                            {
-                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeparateTags ? ("Processing Coroutine (Slow Update)" +
-                                        (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
-                                        : "Processing Coroutine (Slow Update)");
-                            }
-
-                            if (!SlowUpdateProcesses[coindex.i].MoveNext())
-                            {
-                                if (_indexToHandle.ContainsKey(coindex))
-                                {
-                                    CoroutineHandle finishedHandle = _indexToHandle[coindex];
-                                    KillCoroutinesOnInstance(finishedHandle);
-
-                                    if (_pendingResume.ContainsKey(finishedHandle))
-                                    {
-                                        var waiters = _pendingResume[finishedHandle];
-                                        var waiterEnum = waiters.GetEnumerator();
-                                        while (waiterEnum.MoveNext())
-                                        {
-                                            if (_handleToIndex.ContainsKey(waiterEnum.Current))
-                                            {
-                                                ProcessIndex waiterIndex = _handleToIndex[waiterEnum.Current];
-                                                if (waiterIndex.seg == Segment.SlowUpdate)
-                                                {
-                                                    if (_resumeCount == _resumeBuffer.Length)
-                                                    {
-                                                        int[] newBuffer = new int[_resumeBuffer.Length * 2];
-                                                        for (int j = 0; j < _resumeBuffer.Length; j++)
-                                                            newBuffer[j] = _resumeBuffer[j];
-                                                        _resumeBuffer = newBuffer;
-                                                    }
-                                                    _resumeBuffer[_resumeCount++] = waiterIndex.i;
-                                                }
-                                            }
-                                        }
-                                        _pendingResume.Remove(finishedHandle);
-                                    }
-                                }
-                            }
-                            else if (SlowUpdateProcesses[coindex.i] != null && float.IsNaN(SlowUpdateProcesses[coindex.i].Current))
-                            {
-                                if (ReplacementFunction != null)
-                                {
-                                    SlowUpdateProcesses[coindex.i] = ReplacementFunction(SlowUpdateProcesses[coindex.i], _indexToHandle[coindex]);
-                                    ReplacementFunction = null;
-                                }
-                                _resumeBuffer[_resumeCount++] = coindex.i;
                             }
 
                             if (ProfilerDebugAmount != DebugInfoType.None)
@@ -421,9 +306,9 @@ namespace MEC
                         {
                             currentCoroutine = _indexToHandle[coindex];
 
-                            if (ProfilerDebugAmount != DebugInfoType.None)
+                            if (ProfilerDebugAmount != DebugInfoType.None && _indexToHandle.ContainsKey(coindex))
                             {
-                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeparateTags ? ("Processing Coroutine" +
+                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags ? ("Processing Coroutine" +
                                         (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
                                         : "Processing Coroutine");
                             }
@@ -431,35 +316,7 @@ namespace MEC
                             if (!UpdateProcesses[coindex.i].MoveNext())
                             {
                                 if (_indexToHandle.ContainsKey(coindex))
-                                {
-                                    CoroutineHandle finishedHandle = _indexToHandle[coindex];
-                                    KillCoroutinesOnInstance(finishedHandle);
-
-                                    if (_pendingResume.ContainsKey(finishedHandle))
-                                    {
-                                        var waiters = _pendingResume[finishedHandle];
-                                        var waiterEnum = waiters.GetEnumerator();
-                                        while (waiterEnum.MoveNext())
-                                        {
-                                            if (_handleToIndex.ContainsKey(waiterEnum.Current))
-                                            {
-                                                ProcessIndex waiterIndex = _handleToIndex[waiterEnum.Current];
-                                                if (waiterIndex.seg == Segment.Update && waiterIndex.i < coindex.i)
-                                                {
-                                                    if (_resumeCount == _resumeBuffer.Length)
-                                                    {
-                                                        int[] newBuffer = new int[_resumeBuffer.Length * 2];
-                                                        for (int j = 0; j < _resumeBuffer.Length; j++)
-                                                            newBuffer[j] = _resumeBuffer[j];
-                                                        _resumeBuffer = newBuffer;
-                                                    }
-                                                    _resumeBuffer[_resumeCount++] = waiterIndex.i;
-                                                }
-                                            }
-                                        }
-                                        _pendingResume.Remove(finishedHandle);
-                                    }
-                                }
+                                    KillCoroutinesOnInstance(_indexToHandle[coindex]);
                             }
                             else if (UpdateProcesses[coindex.i] != null && float.IsNaN(UpdateProcesses[coindex.i].Current))
                             {
@@ -484,85 +341,11 @@ namespace MEC
                                 + "Example: Timing.RunCoroutine(_foo().CancelWith(gameObject));");
                     }
                 }
-
-                while (_resumeCount > 0)
-                {
-                    coindex.i = _resumeBuffer[--_resumeCount];
-
-                    try
-                    {
-                        if (!UpdatePaused[coindex.i] && !UpdateHeld[coindex.i] && UpdateProcesses[coindex.i] != null && !(localTime < UpdateProcesses[coindex.i].Current))
-                        {
-                            currentCoroutine = _indexToHandle[coindex];
-
-                            if (ProfilerDebugAmount != DebugInfoType.None)
-                            {
-                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeparateTags ? ("Processing Coroutine" +
-                                        (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
-                                        : "Processing Coroutine");
-                            }
-
-                            if (!UpdateProcesses[coindex.i].MoveNext())
-                            {
-                                if (_indexToHandle.ContainsKey(coindex))
-                                {
-                                    CoroutineHandle finishedHandle = _indexToHandle[coindex];
-                                    KillCoroutinesOnInstance(finishedHandle);
-
-                                    if (_pendingResume.ContainsKey(finishedHandle))
-                                    {
-                                        var waiters = _pendingResume[finishedHandle];
-                                        var waiterEnum = waiters.GetEnumerator();
-                                        while (waiterEnum.MoveNext())
-                                        {
-                                            if (_handleToIndex.ContainsKey(waiterEnum.Current))
-                                            {
-                                                ProcessIndex waiterIndex = _handleToIndex[waiterEnum.Current];
-                                                if (waiterIndex.seg == Segment.Update)
-                                                {
-                                                    if (_resumeCount == _resumeBuffer.Length)
-                                                    {
-                                                        int[] newBuffer = new int[_resumeBuffer.Length * 2];
-                                                        for (int j = 0; j < _resumeBuffer.Length; j++)
-                                                            newBuffer[j] = _resumeBuffer[j];
-                                                        _resumeBuffer = newBuffer;
-                                                    }
-                                                    _resumeBuffer[_resumeCount++] = waiterIndex.i;
-                                                }
-                                            }
-                                        }
-                                        _pendingResume.Remove(finishedHandle);
-                                    }
-                                }
-                            }
-                            else if (UpdateProcesses[coindex.i] != null && float.IsNaN(UpdateProcesses[coindex.i].Current))
-                            {
-                                if (ReplacementFunction != null)
-                                {
-                                    UpdateProcesses[coindex.i] = ReplacementFunction(UpdateProcesses[coindex.i], _indexToHandle[coindex]);
-                                    ReplacementFunction = null;
-                                }
-                                _resumeBuffer[_resumeCount++] = coindex.i;
-                            }
-
-                            if (ProfilerDebugAmount != DebugInfoType.None)
-                                Profiler.EndSample();
-                        }
-                    }
-                    catch (System.Exception ex)
-                    {
-                        Debug.LogException(ex);
-
-                        if (ex is MissingReferenceException)
-                            Debug.LogError("This exception can probably be fixed by adding \"CancelWith(gameObject)\" when you run the coroutine.\n"
-                                + "Example: Timing.RunCoroutine(_foo().CancelWith(gameObject));");
-                    }
-                }
             }
 
             currentCoroutine = default(CoroutineHandle);
 
-            if (++_framesSinceUpdate > FramesUntilMaintenance)
+            if(++_framesSinceUpdate > FramesUntilMaintenance)
             {
                 _framesSinceUpdate = 0;
 
@@ -595,9 +378,10 @@ namespace MEC
                         {
                             currentCoroutine = _indexToHandle[coindex];
 
-                            if (ProfilerDebugAmount != DebugInfoType.None)
+
+                            if (ProfilerDebugAmount != DebugInfoType.None && _indexToHandle.ContainsKey(coindex))
                             {
-                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeparateTags ? ("Processing Coroutine" +
+                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags ? ("Processing Coroutine" +
                                         (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
                                         : "Processing Coroutine");
                             }
@@ -605,35 +389,7 @@ namespace MEC
                             if (!FixedUpdateProcesses[coindex.i].MoveNext())
                             {
                                 if (_indexToHandle.ContainsKey(coindex))
-                                {
-                                    CoroutineHandle finishedHandle = _indexToHandle[coindex];
-                                    KillCoroutinesOnInstance(finishedHandle);
-
-                                    if (_pendingResume.ContainsKey(finishedHandle))
-                                    {
-                                        var waiters = _pendingResume[finishedHandle];
-                                        var waiterEnum = waiters.GetEnumerator();
-                                        while (waiterEnum.MoveNext())
-                                        {
-                                            if (_handleToIndex.ContainsKey(waiterEnum.Current))
-                                            {
-                                                ProcessIndex waiterIndex = _handleToIndex[waiterEnum.Current];
-                                                if (waiterIndex.seg == Segment.FixedUpdate && waiterIndex.i < coindex.i)
-                                                {
-                                                    if (_resumeCount == _resumeBuffer.Length)
-                                                    {
-                                                        int[] newBuffer = new int[_resumeBuffer.Length * 2];
-                                                        for (int j = 0; j < _resumeBuffer.Length; j++)
-                                                            newBuffer[j] = _resumeBuffer[j];
-                                                        _resumeBuffer = newBuffer;
-                                                    }
-                                                    _resumeBuffer[_resumeCount++] = waiterIndex.i;
-                                                }
-                                            }
-                                        }
-                                        _pendingResume.Remove(finishedHandle);
-                                    }
-                                }
+                                    KillCoroutinesOnInstance(_indexToHandle[coindex]);
                             }
                             else if (FixedUpdateProcesses[coindex.i] != null && float.IsNaN(FixedUpdateProcesses[coindex.i].Current))
                             {
@@ -643,80 +399,6 @@ namespace MEC
                                     ReplacementFunction = null;
                                 }
                                 coindex.i--;
-                            }
-
-                            if (ProfilerDebugAmount != DebugInfoType.None)
-                                Profiler.EndSample();
-                        }
-                    }
-                    catch (System.Exception ex)
-                    {
-                        Debug.LogException(ex);
-
-                        if (ex is MissingReferenceException)
-                            Debug.LogError("This exception can probably be fixed by adding \"CancelWith(gameObject)\" when you run the coroutine.\n"
-                                + "Example: Timing.RunCoroutine(_foo().CancelWith(gameObject), Segment.FixedUpdate);");
-                    }
-                }
-
-                while (_resumeCount > 0)
-                {
-                    coindex.i = _resumeBuffer[--_resumeCount];
-
-                    try
-                    {
-                        if (!FixedUpdatePaused[coindex.i] && !FixedUpdateHeld[coindex.i] && FixedUpdateProcesses[coindex.i] != null && !(localTime < FixedUpdateProcesses[coindex.i].Current))
-                        {
-                            currentCoroutine = _indexToHandle[coindex];
-
-                            if (ProfilerDebugAmount != DebugInfoType.None)
-                            {
-                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeparateTags ? ("Processing Coroutine" +
-                                        (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
-                                        : "Processing Coroutine");
-                            }
-
-                            if (!FixedUpdateProcesses[coindex.i].MoveNext())
-                            {
-                                if (_indexToHandle.ContainsKey(coindex))
-                                {
-                                    CoroutineHandle finishedHandle = _indexToHandle[coindex];
-                                    KillCoroutinesOnInstance(finishedHandle);
-
-                                    if (_pendingResume.ContainsKey(finishedHandle))
-                                    {
-                                        var waiters = _pendingResume[finishedHandle];
-                                        var waiterEnum = waiters.GetEnumerator();
-                                        while (waiterEnum.MoveNext())
-                                        {
-                                            if (_handleToIndex.ContainsKey(waiterEnum.Current))
-                                            {
-                                                ProcessIndex waiterIndex = _handleToIndex[waiterEnum.Current];
-                                                if (waiterIndex.seg == Segment.FixedUpdate)
-                                                {
-                                                    if (_resumeCount == _resumeBuffer.Length)
-                                                    {
-                                                        int[] newBuffer = new int[_resumeBuffer.Length * 2];
-                                                        for (int j = 0; j < _resumeBuffer.Length; j++)
-                                                            newBuffer[j] = _resumeBuffer[j];
-                                                        _resumeBuffer = newBuffer;
-                                                    }
-                                                    _resumeBuffer[_resumeCount++] = waiterIndex.i;
-                                                }
-                                            }
-                                        }
-                                        _pendingResume.Remove(finishedHandle);
-                                    }
-                                }
-                            }
-                            else if (FixedUpdateProcesses[coindex.i] != null && float.IsNaN(FixedUpdateProcesses[coindex.i].Current))
-                            {
-                                if (ReplacementFunction != null)
-                                {
-                                    FixedUpdateProcesses[coindex.i] = ReplacementFunction(FixedUpdateProcesses[coindex.i], _indexToHandle[coindex]);
-                                    ReplacementFunction = null;
-                                }
-                                _resumeBuffer[_resumeCount++] = coindex.i;
                             }
 
                             if (ProfilerDebugAmount != DebugInfoType.None)
@@ -756,9 +438,10 @@ namespace MEC
                         {
                             currentCoroutine = _indexToHandle[coindex];
 
-                            if (ProfilerDebugAmount != DebugInfoType.None)
+
+                            if (ProfilerDebugAmount != DebugInfoType.None && _indexToHandle.ContainsKey(coindex))
                             {
-                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeparateTags ? ("Processing Coroutine" +
+                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeperateTags ? ("Processing Coroutine" +
                                         (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
                                         : "Processing Coroutine");
                             }
@@ -766,35 +449,7 @@ namespace MEC
                             if (!LateUpdateProcesses[coindex.i].MoveNext())
                             {
                                 if (_indexToHandle.ContainsKey(coindex))
-                                {
-                                    CoroutineHandle finishedHandle = _indexToHandle[coindex];
-                                    KillCoroutinesOnInstance(finishedHandle);
-
-                                    if (_pendingResume.ContainsKey(finishedHandle))
-                                    {
-                                        var waiters = _pendingResume[finishedHandle];
-                                        var waiterEnum = waiters.GetEnumerator();
-                                        while (waiterEnum.MoveNext())
-                                        {
-                                            if (_handleToIndex.ContainsKey(waiterEnum.Current))
-                                            {
-                                                ProcessIndex waiterIndex = _handleToIndex[waiterEnum.Current];
-                                                if (waiterIndex.seg == Segment.LateUpdate && waiterIndex.i < coindex.i)
-                                                {
-                                                    if (_resumeCount == _resumeBuffer.Length)
-                                                    {
-                                                        int[] newBuffer = new int[_resumeBuffer.Length * 2];
-                                                        for (int j = 0; j < _resumeBuffer.Length; j++)
-                                                            newBuffer[j] = _resumeBuffer[j];
-                                                        _resumeBuffer = newBuffer;
-                                                    }
-                                                    _resumeBuffer[_resumeCount++] = waiterIndex.i;
-                                                }
-                                            }
-                                        }
-                                        _pendingResume.Remove(finishedHandle);
-                                    }
-                                }
+                                    KillCoroutinesOnInstance(_indexToHandle[coindex]);
                             }
                             else if (LateUpdateProcesses[coindex.i] != null && float.IsNaN(LateUpdateProcesses[coindex.i].Current))
                             {
@@ -804,80 +459,6 @@ namespace MEC
                                     ReplacementFunction = null;
                                 }
                                 coindex.i--;
-                            }
-
-                            if (ProfilerDebugAmount != DebugInfoType.None)
-                                Profiler.EndSample();
-                        }
-                    }
-                    catch (System.Exception ex)
-                    {
-                        Debug.LogException(ex);
-
-                        if (ex is MissingReferenceException)
-                            Debug.LogError("This exception can probably be fixed by adding \"CancelWith(gameObject)\" when you run the coroutine.\n"
-                                + "Example: Timing.RunCoroutine(_foo().CancelWith(gameObject), Segment.LateUpdate);");
-                    }
-                }
-
-                while (_resumeCount > 0)
-                {
-                    coindex.i = _resumeBuffer[--_resumeCount];
-
-                    try
-                    {
-                        if (!LateUpdatePaused[coindex.i] && !LateUpdateHeld[coindex.i] && LateUpdateProcesses[coindex.i] != null && !(localTime < LateUpdateProcesses[coindex.i].Current))
-                        {
-                            currentCoroutine = _indexToHandle[coindex];
-
-                            if (ProfilerDebugAmount != DebugInfoType.None)
-                            {
-                                Profiler.BeginSample(ProfilerDebugAmount == DebugInfoType.SeparateTags ? ("Processing Coroutine" +
-                                        (_processTags.ContainsKey(_indexToHandle[coindex]) ? ", tag " + _processTags[_indexToHandle[coindex]] : ", no tag"))
-                                        : "Processing Coroutine");
-                            }
-
-                            if (!LateUpdateProcesses[coindex.i].MoveNext())
-                            {
-                                if (_indexToHandle.ContainsKey(coindex))
-                                {
-                                    CoroutineHandle finishedHandle = _indexToHandle[coindex];
-                                    KillCoroutinesOnInstance(finishedHandle);
-
-                                    if (_pendingResume.ContainsKey(finishedHandle))
-                                    {
-                                        var waiters = _pendingResume[finishedHandle];
-                                        var waiterEnum = waiters.GetEnumerator();
-                                        while (waiterEnum.MoveNext())
-                                        {
-                                            if (_handleToIndex.ContainsKey(waiterEnum.Current))
-                                            {
-                                                ProcessIndex waiterIndex = _handleToIndex[waiterEnum.Current];
-                                                if (waiterIndex.seg == Segment.LateUpdate)
-                                                {
-                                                    if (_resumeCount == _resumeBuffer.Length)
-                                                    {
-                                                        int[] newBuffer = new int[_resumeBuffer.Length * 2];
-                                                        for (int j = 0; j < _resumeBuffer.Length; j++)
-                                                            newBuffer[j] = _resumeBuffer[j];
-                                                        _resumeBuffer = newBuffer;
-                                                    }
-                                                    _resumeBuffer[_resumeCount++] = waiterIndex.i;
-                                                }
-                                            }
-                                        }
-                                        _pendingResume.Remove(finishedHandle);
-                                    }
-                                }
-                            }
-                            else if (LateUpdateProcesses[coindex.i] != null && float.IsNaN(LateUpdateProcesses[coindex.i].Current))
-                            {
-                                if (ReplacementFunction != null)
-                                {
-                                    LateUpdateProcesses[coindex.i] = ReplacementFunction(LateUpdateProcesses[coindex.i], _indexToHandle[coindex]);
-                                    ReplacementFunction = null;
-                                }
-                                _resumeBuffer[_resumeCount++] = coindex.i;
                             }
 
                             if (ProfilerDebugAmount != DebugInfoType.None)
@@ -1239,37 +820,24 @@ namespace MEC
 
                     while (prewarm)
                     {
-                        try
+                        if (!UpdateProcesses[slot.i].MoveNext())
                         {
-                            if (!UpdateProcesses[slot.i].MoveNext())
-                            {
-                                if (_indexToHandle.ContainsKey(slot))
-                                    KillCoroutinesOnInstance(_indexToHandle[slot]);
+                            if (_indexToHandle.ContainsKey(slot))
+                                KillCoroutinesOnInstance(_indexToHandle[slot]);
 
-                                prewarm = false;
-                            }
-                            else if (UpdateProcesses[slot.i] != null && float.IsNaN(UpdateProcesses[slot.i].Current))
-                            {
-                                if (ReplacementFunction != null)
-                                {
-                                    UpdateProcesses[slot.i] = ReplacementFunction(UpdateProcesses[slot.i], _indexToHandle[slot]);
-                                    ReplacementFunction = null;
-                                }
-                                prewarm = !UpdatePaused[slot.i] && !UpdateHeld[slot.i];
-                            }
-                            else
-                            {
-                                prewarm = false;
-                            }
+                            prewarm = false;
                         }
-                        catch (System.Exception ex)
+                        else if (UpdateProcesses[slot.i] != null && float.IsNaN(UpdateProcesses[slot.i].Current))
                         {
-                            Debug.LogException(ex);
-
-                            if (ex is MissingReferenceException)
-                                Debug.LogError("This exception can probably be fixed by adding \"CancelWith(gameObject)\" when you run the coroutine.\n"
-                                    + "Example: Timing.RunCoroutine(_foo().CancelWith(gameObject));");
-
+                            if (ReplacementFunction != null)
+                            {
+                                UpdateProcesses[slot.i] = ReplacementFunction(UpdateProcesses[slot.i], _indexToHandle[slot]);
+                                ReplacementFunction = null;
+                            }
+                            prewarm = !UpdatePaused[slot.i] && !UpdateHeld[slot.i];
+                        }
+                        else
+                        {
                             prewarm = false;
                         }
                     }
@@ -1310,37 +878,24 @@ namespace MEC
 
                     while (prewarm)
                     {
-                        try
+                        if (!FixedUpdateProcesses[slot.i].MoveNext())
                         {
-                            if (!FixedUpdateProcesses[slot.i].MoveNext())
-                            {
-                                if (_indexToHandle.ContainsKey(slot))
-                                    KillCoroutinesOnInstance(_indexToHandle[slot]);
+                            if (_indexToHandle.ContainsKey(slot))
+                                KillCoroutinesOnInstance(_indexToHandle[slot]);
 
-                                prewarm = false;
-                            }
-                            else if (FixedUpdateProcesses[slot.i] != null && float.IsNaN(FixedUpdateProcesses[slot.i].Current))
-                            {
-                                if (ReplacementFunction != null)
-                                {
-                                    FixedUpdateProcesses[slot.i] = ReplacementFunction(FixedUpdateProcesses[slot.i], _indexToHandle[slot]);
-                                    ReplacementFunction = null;
-                                }
-                                prewarm = !FixedUpdatePaused[slot.i] && !FixedUpdateHeld[slot.i];
-                            }
-                            else
-                            {
-                                prewarm = false;
-                            }
+                            prewarm = false;
                         }
-                        catch (System.Exception ex)
+                        else if (FixedUpdateProcesses[slot.i] != null && float.IsNaN(FixedUpdateProcesses[slot.i].Current))
                         {
-                            Debug.LogException(ex);
-
-                            if (ex is MissingReferenceException)
-                                Debug.LogError("This exception can probably be fixed by adding \"CancelWith(gameObject)\" when you run the coroutine.\n"
-                                    + "Example: Timing.RunCoroutine(_foo().CancelWith(gameObject), Segment.FixedUpdate);");
-
+                            if (ReplacementFunction != null)
+                            {
+                                FixedUpdateProcesses[slot.i] = ReplacementFunction(FixedUpdateProcesses[slot.i], _indexToHandle[slot]);
+                                ReplacementFunction = null;
+                            }
+                            prewarm = !FixedUpdatePaused[slot.i] && !FixedUpdateHeld[slot.i];
+                        }
+                        else
+                        {
                             prewarm = false;
                         }
                     }
@@ -1381,37 +936,24 @@ namespace MEC
 
                     while (prewarm)
                     {
-                        try
+                        if (!LateUpdateProcesses[slot.i].MoveNext())
                         {
-                            if (!LateUpdateProcesses[slot.i].MoveNext())
-                            {
-                                if (_indexToHandle.ContainsKey(slot))
-                                    KillCoroutinesOnInstance(_indexToHandle[slot]);
+                            if (_indexToHandle.ContainsKey(slot))
+                                KillCoroutinesOnInstance(_indexToHandle[slot]);
 
-                                prewarm = false;
-                            }
-                            else if (LateUpdateProcesses[slot.i] != null && float.IsNaN(LateUpdateProcesses[slot.i].Current))
-                            {
-                                if (ReplacementFunction != null)
-                                {
-                                    LateUpdateProcesses[slot.i] = ReplacementFunction(LateUpdateProcesses[slot.i], _indexToHandle[slot]);
-                                    ReplacementFunction = null;
-                                }
-                                prewarm = !LateUpdatePaused[slot.i] && !LateUpdateHeld[slot.i];
-                            }
-                            else
-                            {
-                                prewarm = false;
-                            }
+                            prewarm = false;
                         }
-                        catch (System.Exception ex)
+                        else if (LateUpdateProcesses[slot.i] != null && float.IsNaN(LateUpdateProcesses[slot.i].Current))
                         {
-                            Debug.LogException(ex);
-
-                            if (ex is MissingReferenceException)
-                                Debug.LogError("This exception can probably be fixed by adding \"CancelWith(gameObject)\" when you run the coroutine.\n"
-                                    + "Example: Timing.RunCoroutine(_foo().CancelWith(gameObject), Segment.LateUpdate);");
-
+                            if (ReplacementFunction != null)
+                            {
+                                LateUpdateProcesses[slot.i] = ReplacementFunction(LateUpdateProcesses[slot.i], _indexToHandle[slot]);
+                                ReplacementFunction = null;
+                            }
+                            prewarm = !LateUpdatePaused[slot.i] && !LateUpdateHeld[slot.i];
+                        }
+                        else
+                        {
                             prewarm = false;
                         }
                     }
@@ -1452,37 +994,24 @@ namespace MEC
 
                     while (prewarm)
                     {
-                        try
+                        if (!SlowUpdateProcesses[slot.i].MoveNext())
                         {
-                            if (!SlowUpdateProcesses[slot.i].MoveNext())
-                            {
-                                if (_indexToHandle.ContainsKey(slot))
-                                    KillCoroutinesOnInstance(_indexToHandle[slot]);
+                            if (_indexToHandle.ContainsKey(slot))
+                                KillCoroutinesOnInstance(_indexToHandle[slot]);
 
-                                prewarm = false;
-                            }
-                            else if (SlowUpdateProcesses[slot.i] != null && float.IsNaN(SlowUpdateProcesses[slot.i].Current))
-                            {
-                                if (ReplacementFunction != null)
-                                {
-                                    SlowUpdateProcesses[slot.i] = ReplacementFunction(SlowUpdateProcesses[slot.i], _indexToHandle[slot]);
-                                    ReplacementFunction = null;
-                                }
-                                prewarm = !SlowUpdatePaused[slot.i] && !SlowUpdateHeld[slot.i];
-                            }
-                            else
-                            {
-                                prewarm = false;
-                            }
+                            prewarm = false;
                         }
-                        catch (System.Exception ex)
+                        else if (SlowUpdateProcesses[slot.i] != null && float.IsNaN(SlowUpdateProcesses[slot.i].Current))
                         {
-                            Debug.LogException(ex);
-
-                            if (ex is MissingReferenceException)
-                                Debug.LogError("This exception can probably be fixed by adding \"CancelWith(gameObject)\" when you run the coroutine.\n"
-                                    + "Example: Timing.RunCoroutine(_foo().CancelWith(gameObject), Segment.SlowUpdate);");
-
+                            if (ReplacementFunction != null)
+                            {
+                                SlowUpdateProcesses[slot.i] = ReplacementFunction(SlowUpdateProcesses[slot.i], _indexToHandle[slot]);
+                                ReplacementFunction = null;
+                            }
+                            prewarm = !SlowUpdatePaused[slot.i] && !SlowUpdateHeld[slot.i];
+                        }
+                        else
+                        {
                             prewarm = false;
                         }
                     }
@@ -1553,8 +1082,6 @@ namespace MEC
             _handleToIndex.Clear();
             _indexToHandle.Clear();
             _waitingTriggers.Clear();
-            _allWaiting.Clear();
-            _pendingResume.Clear();
             _expansions = (ushort)((_expansions / 2) + 1);
 
             return retVal;
@@ -1872,7 +1399,7 @@ namespace MEC
 
         private bool UpdateTimeValues(Segment segment)
         {
-            switch (segment)
+            switch(segment)
             {
                 case Segment.Update:
                     if (_currentUpdateFrame != Time.frameCount)
@@ -1908,7 +1435,7 @@ namespace MEC
                     deltaTime = Time.fixedDeltaTime;
                     localTime = Time.fixedTime;
 
-                    if (_lastFixedUpdateTime + ASmallNumber < Time.fixedTime)
+                    if (_lastFixedUpdateTime + 0.0001f < Time.fixedTime)
                     {
                         _lastFixedUpdateTime = Time.fixedTime;
                         return true;
@@ -1940,10 +1467,10 @@ namespace MEC
                 case Segment.Update:
                     if (_currentUpdateFrame == Time.frameCount)
                         return _lastUpdateTime;
-                    else
+                    else 
                         return _lastUpdateTime + Time.deltaTime;
                 case Segment.LateUpdate:
-                    if (_currentLateUpdateFrame == Time.frameCount)
+                    if (_currentUpdateFrame == Time.frameCount)
                         return _lastLateUpdateTime;
                     else
                         return _lastLateUpdateTime + Time.deltaTime;
@@ -2086,7 +1613,7 @@ namespace MEC
                 return false;
 
             bool isPaused;
-
+            
             switch (coindex.seg)
             {
                 case Segment.Update:
@@ -2274,7 +1801,7 @@ namespace MEC
 
         /// <summary>
         /// Use the command "yield return Timing.WaitUntilDone(otherCoroutine, false);" to pause the current 
-        /// coroutine until otherCoroutine is done, suppressing warnings.
+        /// coroutine until otherCoroutine is done, supressing warnings.
         /// </summary>
         /// <param name="otherCoroutine">The coroutine to pause for.</param>
         /// <param name="warnOnIssue">Post a warning to the console if no hold action was actually performed.</param>
@@ -2309,11 +1836,7 @@ namespace MEC
                 if (!inst._allWaiting.Contains(inst.currentCoroutine))
                     inst._allWaiting.Add(inst.currentCoroutine);
                 inst.SetHeld(inst._handleToIndex[inst.currentCoroutine], true);
-
-                if (!inst._pendingResume.ContainsKey(otherCoroutine))
-                    inst._pendingResume.Add(otherCoroutine, new HashSet<CoroutineHandle> { inst.currentCoroutine });
-                else
-                    inst._pendingResume[otherCoroutine].Add(inst.currentCoroutine);
+                inst.SwapToLast(otherCoroutine, inst.currentCoroutine);
 
                 return float.NaN;
             }
@@ -2337,6 +1860,50 @@ namespace MEC
             finally
             {
                 CloseWaitingProcess(handle);
+            }
+        }
+
+        private void SwapToLast(CoroutineHandle firstHandle, CoroutineHandle lastHandle)
+        {
+            if (firstHandle.Key != lastHandle.Key)
+                return;
+
+            ProcessIndex firstIndex = _handleToIndex[firstHandle];
+            ProcessIndex lastIndex = _handleToIndex[lastHandle];
+
+            if (firstIndex.seg != lastIndex.seg || firstIndex.i < lastIndex.i)
+                return;
+
+            IEnumerator<float> tempCoptr = CoindexPeek(firstIndex);
+            CoindexReplace(firstIndex, CoindexPeek(lastIndex));
+            CoindexReplace(lastIndex, tempCoptr);
+
+            _indexToHandle[firstIndex] = lastHandle;
+            _indexToHandle[lastIndex] = firstHandle;
+            _handleToIndex[firstHandle] = lastIndex;
+            _handleToIndex[lastHandle] = firstIndex;
+            bool tmpB = SetPause(firstIndex, CoindexIsPaused(lastIndex));
+            SetPause(lastIndex, tmpB);
+            tmpB = SetHeld(firstIndex, CoindexIsHeld(lastIndex));
+            SetHeld(lastIndex, tmpB);
+
+            if (_waitingTriggers.ContainsKey(lastHandle))
+            {
+                var trigsEnum = _waitingTriggers[lastHandle].GetEnumerator();
+                while (trigsEnum.MoveNext())
+                    SwapToLast(lastHandle, trigsEnum.Current);
+            }
+
+            if (_allWaiting.Contains(firstHandle))
+            {
+                var keyEnum = _waitingTriggers.GetEnumerator();
+                while (keyEnum.MoveNext())
+                {
+                    var valueEnum = keyEnum.Current.Value.GetEnumerator();
+                    while (valueEnum.MoveNext())
+                        if (valueEnum.Current == firstHandle)
+                            SwapToLast(keyEnum.Current.Key, firstHandle);
+                }
             }
         }
 
@@ -2371,6 +1938,38 @@ namespace MEC
         {
             return _tmpRef as IEnumerator<float>;
         }
+
+#if !UNITY_2018_3_OR_NEWER
+        /// <summary>
+        /// Use the command "yield return Timing.WaitUntilDone(wwwObject);" to pause the current 
+        /// coroutine until the wwwObject is done.
+        /// </summary>
+        /// <param name="wwwObject">The www object to pause for.</param>
+        public static float WaitUntilDone(WWW wwwObject)
+        {
+            if (wwwObject == null || wwwObject.isDone) return 0f;
+
+            _tmpRef = wwwObject;
+            ReplacementFunction = WaitUntilDoneWwwHelper;
+            return float.NaN;
+        }
+
+
+        private static IEnumerator<float> WaitUntilDoneWwwHelper(IEnumerator<float> coptr, CoroutineHandle handle)
+        {
+            return _StartWhenDone(_tmpRef as WWW, coptr);
+        }
+
+        private static IEnumerator<float> _StartWhenDone(WWW www, IEnumerator<float> pausedProc)
+        {
+            while (!www.isDone)
+                yield return WaitForOneFrame;
+
+            _tmpRef = pausedProc;
+            ReplacementFunction = ReturnTmpRefForRepFunc;
+            yield return float.NaN;
+        }
+#endif
 
         /// <summary>
         /// Use the command "yield return Timing.WaitUntilDone(operation);" to pause the current 
@@ -2478,46 +2077,6 @@ namespace MEC
         }
 
         /// <summary>
-        /// Sets the segment for the coroutine with the given handle.
-        /// </summary>
-        /// <param name="handle">The handle to the coroutine.</param>
-        /// <param name="newSegment">The new segment to run the coroutine in.</param>
-        /// <returns>Whether the segment was set successfully.</returns>
-        public static bool SetSegment(CoroutineHandle handle, Segment newSegment)
-        {
-            Timing inst = GetInstance(handle.Key);
-            if (inst == null || !inst._handleToIndex.ContainsKey(handle) || inst.CoindexIsNull(inst._handleToIndex[handle]))
-                return false;
-
-            ProcessIndex coindex = inst._handleToIndex[handle];
-            IEnumerator<float> procPtr = inst.CoindexExtract(coindex);
-            bool coroutineHeld = inst.CoindexIsHeld(coindex);
-            bool coroutinePaused = inst.CoindexIsPaused(coindex);
-
-            if (procPtr.Current > inst.GetSegmentTime(coindex.seg))
-                procPtr = inst._InjectDelay(procPtr, procPtr.Current - inst.GetSegmentTime(coindex.seg));
-
-            inst.RunCoroutineInternal(procPtr, newSegment, null, handle, false);
-
-            coindex = inst._handleToIndex[handle];
-            inst.SetHeld(coindex, coroutineHeld);
-            inst.SetPause(coindex, coroutinePaused);
-
-            return true;
-        }
-
-        /// <summary>
-        /// Tests to see if the handle you have points to a valid coroutine that is currently running. Paused or held coroutines count as running.
-        /// </summary>
-        /// <param name="handle">The handle to test.</param>
-        /// <returns>Whether it's a valid coroutine.</returns>
-        public static bool IsRunning(CoroutineHandle handle)
-        {
-            Timing inst = GetInstance(handle.Key);
-            return inst != null && inst._handleToIndex.ContainsKey(handle) && !inst.CoindexIsNull(inst._handleToIndex[handle]);
-        }
-
-        /// <summary>
         /// Calls the specified action after a specified number of seconds.
         /// </summary>
         /// <param name="delay">The number of seconds to wait before calling the action.</param>
@@ -2619,7 +2178,7 @@ namespace MEC
         {
             yield return WaitForSecondsOnInstance(delay);
 
-            if (cancelWith == null || cancelWith)
+            if(ReferenceEquals(cancelWith, null) || cancelWith != null)
                 action();
         }
 
@@ -2729,7 +2288,7 @@ namespace MEC
 
         private IEnumerator<float> _CallContinuously(float timeframe, float period, System.Action action, System.Action onDone)
         {
-            float startTime = localTime;
+            double startTime = localTime;
             while (localTime <= startTime + timeframe)
             {
                 yield return WaitForSecondsOnInstance(period);
@@ -2753,7 +2312,7 @@ namespace MEC
         public static CoroutineHandle CallPeriodically<T>
             (T reference, float timeframe, float period, System.Action<T> action, System.Action<T> onDone = null)
         {
-            return action == null ? new CoroutineHandle() :
+            return action == null ? new CoroutineHandle() : 
                 RunCoroutine(Instance._CallContinuously(reference, timeframe, period, action, onDone), Segment.Update);
         }
 
@@ -2769,7 +2328,7 @@ namespace MEC
         public CoroutineHandle CallPeriodicallyOnInstance<T>
             (T reference, float timeframe, float period, System.Action<T> action, System.Action<T> onDone = null)
         {
-            return action == null ? new CoroutineHandle() :
+            return action == null ? new CoroutineHandle() : 
                 RunCoroutineOnInstance(_CallContinuously(reference, timeframe, period, action, onDone), Segment.Update);
         }
 
@@ -2783,10 +2342,10 @@ namespace MEC
         /// <param name="timing">The timing segment to run in.</param>
         /// <param name="onDone">An optional action to call when this function finishes.</param>
         /// <returns>The handle to the coroutine that is started by this function.</returns>
-        public static CoroutineHandle CallPeriodically<T>(T reference, float timeframe, float period, System.Action<T> action,
+        public static CoroutineHandle CallPeriodically<T>(T reference, float timeframe, float period, System.Action<T> action, 
             Segment timing, System.Action<T> onDone = null)
         {
-            return action == null ? new CoroutineHandle() :
+            return action == null ? new CoroutineHandle() : 
                 RunCoroutine(Instance._CallContinuously(reference, timeframe, period, action, onDone), timing);
         }
 
@@ -2803,7 +2362,7 @@ namespace MEC
         public CoroutineHandle CallPeriodicallyOnInstance<T>(T reference, float timeframe, float period, System.Action<T> action,
             Segment timing, System.Action<T> onDone = null)
         {
-            return action == null ? new CoroutineHandle() :
+            return action == null ? new CoroutineHandle() : 
                 RunCoroutineOnInstance(_CallContinuously(reference, timeframe, period, action, onDone), timing);
         }
 
@@ -2817,7 +2376,7 @@ namespace MEC
         /// <returns>The handle to the coroutine that is started by this function.</returns>
         public static CoroutineHandle CallContinuously<T>(T reference, float timeframe, System.Action<T> action, System.Action<T> onDone = null)
         {
-            return action == null ? new CoroutineHandle() :
+            return action == null ? new CoroutineHandle() : 
                 RunCoroutine(Instance._CallContinuously(reference, timeframe, 0f, action, onDone), Segment.Update);
         }
 
@@ -2831,7 +2390,7 @@ namespace MEC
         /// <returns>The handle to the coroutine that is started by this function.</returns>
         public CoroutineHandle CallContinuouslyOnInstance<T>(T reference, float timeframe, System.Action<T> action, System.Action<T> onDone = null)
         {
-            return action == null ? new CoroutineHandle() :
+            return action == null ? new CoroutineHandle() : 
                 RunCoroutineOnInstance(_CallContinuously(reference, timeframe, 0f, action, onDone), Segment.Update);
         }
 
@@ -2844,10 +2403,10 @@ namespace MEC
         /// <param name="timing">The timing segment to run in.</param>
         /// <param name="onDone">An optional action to call when this function finishes.</param>
         /// <returns>The handle to the coroutine that is started by this function.</returns>
-        public static CoroutineHandle CallContinuously<T>(T reference, float timeframe, System.Action<T> action,
+        public static CoroutineHandle CallContinuously<T>(T reference, float timeframe, System.Action<T> action, 
             Segment timing, System.Action<T> onDone = null)
         {
-            return action == null ? new CoroutineHandle() :
+            return action == null ? new CoroutineHandle() : 
                 RunCoroutine(Instance._CallContinuously(reference, timeframe, 0f, action, onDone), timing);
         }
 
@@ -2863,7 +2422,7 @@ namespace MEC
         public CoroutineHandle CallContinuouslyOnInstance<T>(T reference, float timeframe, System.Action<T> action,
             Segment timing, System.Action<T> onDone = null)
         {
-            return action == null ? new CoroutineHandle() :
+            return action == null ? new CoroutineHandle() : 
                 RunCoroutineOnInstance(_CallContinuously(reference, timeframe, 0f, action, onDone), timing);
         }
 
@@ -3022,11 +2581,11 @@ namespace MEC
         /// <summary>
         /// The Unity profiler will identify each coroutine individually
         /// </summary>
-        SeparateCoroutines,
+        SeperateCoroutines,
         /// <summary>
         /// Coroutines will be separated and any tags or layers will be identified
         /// </summary>
-        SeparateTags
+        SeperateTags
     }
 
     /// <summary>
@@ -3061,12 +2620,12 @@ namespace MEC
             return false;
         }
 
-        public static bool operator ==(CoroutineHandle a, CoroutineHandle b)
+        public static bool operator==(CoroutineHandle a, CoroutineHandle b)
         {
             return a._id == b._id;
         }
 
-        public static bool operator !=(CoroutineHandle a, CoroutineHandle b)
+        public static bool operator!=(CoroutineHandle a, CoroutineHandle b)
         {
             return a._id != b._id;
         }
@@ -3156,7 +2715,7 @@ public static class MECExtensionMethods2
     /// <returns>The modified coroutine handle.</returns>
     public static IEnumerator<float> CancelWith(this IEnumerator<float> coroutine, GameObject gameObject1, GameObject gameObject2)
     {
-        while (MEC.Timing.MainThread != System.Threading.Thread.CurrentThread || (gameObject1 && gameObject1.activeInHierarchy &&
+        while (MEC.Timing.MainThread != System.Threading.Thread.CurrentThread || (gameObject1 && gameObject1.activeInHierarchy && 
                 gameObject2 && gameObject2.activeInHierarchy && coroutine.MoveNext()))
             yield return coroutine.Current;
     }
@@ -3172,7 +2731,7 @@ public static class MECExtensionMethods2
     public static IEnumerator<float> CancelWith(this IEnumerator<float> coroutine,
         GameObject gameObject1, GameObject gameObject2, GameObject gameObject3)
     {
-        while (MEC.Timing.MainThread != System.Threading.Thread.CurrentThread || (gameObject1 && gameObject1.activeInHierarchy &&
+        while (MEC.Timing.MainThread != System.Threading.Thread.CurrentThread || (gameObject1 && gameObject1.activeInHierarchy && 
                 gameObject2 && gameObject2.activeInHierarchy && gameObject3 && gameObject3.activeInHierarchy && coroutine.MoveNext()))
             yield return coroutine.Current;
     }

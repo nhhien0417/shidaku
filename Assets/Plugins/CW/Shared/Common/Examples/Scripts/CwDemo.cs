@@ -32,21 +32,21 @@ namespace CW.Common
 		/// <summary>If you enable this setting and your project is running with HDRP then any cameras missing the <b>HDAdditionalCameraData</b> component will have it added.</summary>
 		public bool UpgradeCamerasInHDRP { set { upgradeCamerasInHDRP = value; } get { return upgradeCamerasInHDRP; } } [SerializeField] private bool upgradeCamerasInHDRP = true;
 
-
-
 		protected virtual void OnEnable()
 		{
+			var pipeline = CwShaderBundle.DetectProjectPipeline();
+
 			if (upgradeInputModule == true)
 			{
 				TryUpgradeEventSystem();
 			}
 
-			if (CwHelper.IsURP == true)
+			if (CwShaderBundle.IsURP(pipeline) == true)
 			{
 				TryApplyURP();
 			}
 
-			if (CwHelper.IsHDRP == true)
+			if (CwShaderBundle.IsHDRP(pipeline) == true)
 			{
 				TryApplyHDRP();
 			}
@@ -142,7 +142,7 @@ namespace CW.Common
 		private void TryUpgradeLights()
 		{
 #if __HDRP__
-			foreach (var light in CwHelper.FindObjectsByType<Light>())
+			foreach (var light in FindObjectsOfType<Light>())
 			{
 				if (light.GetComponent<UnityEngine.Rendering.HighDefinition.HDAdditionalLightData>() == null)
 				{
@@ -155,7 +155,7 @@ namespace CW.Common
 		private void TryUpgradeCameras()
 		{
 #if __HDRP__
-			foreach (var camera in CwHelper.FindObjectsByType<Camera>())
+			foreach (var camera in FindObjectsOfType<Camera>())
 			{
 				if (camera.GetComponent<UnityEngine.Rendering.HighDefinition.HDAdditionalCameraData>() == null)
 				{
@@ -170,7 +170,7 @@ namespace CW.Common
 		private void TryUpgradeEventSystem()
 		{
 #if UNITY_EDITOR && ENABLE_INPUT_SYSTEM && __INPUTSYSTEM__
-			var module = CwHelper.FindAnyObjectByType<UnityEngine.EventSystems.StandaloneInputModule>();
+			var module = FindObjectOfType<UnityEngine.EventSystems.StandaloneInputModule>();
 
 			if (module != null)
 			{

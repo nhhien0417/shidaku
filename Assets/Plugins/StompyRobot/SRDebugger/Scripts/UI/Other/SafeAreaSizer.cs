@@ -81,16 +81,6 @@ namespace SRDebugger.UI.Other
             get { return -1; }
         }
 
-        public float maxHeight
-        {
-            get { return -1; }
-        }
-
-        public float maxWidth
-        {
-            get { return -1; }
-        }
-
 #if UNITY_EDITOR
         protected override void OnValidate()
         {

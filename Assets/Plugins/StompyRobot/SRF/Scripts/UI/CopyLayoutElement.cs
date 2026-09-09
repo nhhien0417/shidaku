@@ -89,16 +89,6 @@
             get { return -1; }
         }
 
-        public float maxHeight
-        {
-            get { return -1; }
-        }
-
-        public float maxWidth
-        {
-            get { return -1; }
-        }
-
         public void CalculateLayoutInputHorizontal() {}
         public void CalculateLayoutInputVertical() {}
     }

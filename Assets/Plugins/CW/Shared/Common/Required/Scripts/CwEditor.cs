@@ -390,7 +390,7 @@ namespace CW.Common
 
 			EditorGUI.BeginChangeCheck();
 
-			value = EditorGUILayout.Vector4Field(customContent, value);
+			EditorGUILayout.Vector4Field(customContent, value);
 
 			if (EditorGUI.EndChangeCheck() == true)
 			{

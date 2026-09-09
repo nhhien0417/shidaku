@@ -767,8 +767,8 @@ namespace Spine.Unity {
 
 			class AnimationClipEqualityComparer : IEqualityComparer<AnimationClip> {
 				internal static readonly IEqualityComparer<AnimationClip> Instance = new AnimationClipEqualityComparer();
-				public bool Equals (AnimationClip x, AnimationClip y) { return ReferenceEquals(x, y); }
-				public int GetHashCode (AnimationClip o) { return o.GetHashCode(); }
+				public bool Equals (AnimationClip x, AnimationClip y) { return x.GetInstanceID() == y.GetInstanceID(); }
+				public int GetHashCode (AnimationClip o) { return o.GetInstanceID(); }
 			}
 
 			class IntEqualityComparer : IEqualityComparer<int> {

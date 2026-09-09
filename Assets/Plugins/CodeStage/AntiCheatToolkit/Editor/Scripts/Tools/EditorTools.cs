@@ -367,7 +367,7 @@ namespace CodeStage.AntiCheat.EditorCode
 						if (unityObject == null) continue;
 						if (unityObject.name == "Deprecated EditorExtensionImpl") continue;
 						results.Add(unityObject, $"Path: {path}\n" +
-						                         $"Object: {unityObject.name} (InstanceID {unityObject.GetHashCode()})");
+						                         $"Object: {unityObject.name} (InstanceID {unityObject.GetInstanceID()})");
 						anythingFound = true;
 					}
 				}
@@ -419,7 +419,7 @@ namespace CodeStage.AntiCheat.EditorCode
 		{
 			return $"Path: {path}\n" +
 			       $"Transform: {GetFullTransformPath(component.transform)}\n" +
-			       $"Component: {GetComponentName(component)} (InstanceID {component.GetHashCode()})";
+			       $"Component: {GetComponentName(component)} (InstanceID {component.GetInstanceID()})";
 			
 			string GetComponentName(Component target)
 			{
